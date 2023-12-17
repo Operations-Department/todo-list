@@ -1,3 +1,3 @@
 import './style.css';
 
-alert('hello there');
+console.log('hello there');
