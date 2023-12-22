@@ -10,11 +10,13 @@ html {
 }
 
 :root {
-    --primary-color: #B7891E;
-    --secondary-color: #1EB789;
-    --tertiary-color: #891EB7;
+    --primary-color: #2d2749;
+    --secondary-color: #df72a9;
     --border-radius: 2rem;
+    --border-color: red;
+    --border: 1px solid var(--border-color);
     --font-color: white;
+    --gap: 1rem;
 }
 
 @font-face {
@@ -40,7 +42,7 @@ html {
 }
 
 /* header */
-.header {
+header {
     grid-area: 1 / 1 / 2 / 3;
     display: flex;
     justify-content: flex-start;
@@ -48,8 +50,8 @@ html {
     font-family: 'Primary-font';
     color: var(--font-color);
     font-size: 5rem;
-    gap: 1rem;
-    border-bottom: 1px solid var(--font-color);
+    gap: var(--gap);
+    border-bottom: var(--border);
 }
 
 .svg {
@@ -61,13 +63,15 @@ html {
 /* side-bar */
 .side-bar {
     grid-area: 2 / 1 / 3 / 2;
-    background: var(--secondary-color);
-    /* background: linear-gradient(180deg, var(--secondary-color), var(--tertiary-color)); */
+    background: url(./imgs/backdrop-2.jpg);
+    background-size: 100% 100%;
+    background-attachment: fixed;
     color: var(--font-color);
     font-family: 'Secondary-font';
     display: grid;
     grid-template-rows: 1fr 2fr;
     font-size: 2rem;
+    border-right: var(--border);
 }
 
 .home-tasks,
@@ -75,14 +79,14 @@ html {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    gap: 1rem;
+    gap: var(--gap);
     width: 80%;
     list-style: none;
     padding: 1.5rem;
 }
 
 .side-bar-title {
-    border-bottom: 1px solid var(--font-color);
+    border-bottom: var(--border);
     font-weight: bold;
     font-size: 2.5rem;
 }
@@ -91,6 +95,9 @@ button {
     color: var(--font-color);
     background: none;
     transition: ease-in-out 0.3s;
+    font-size: 1.5rem;
+    font-family: 'Secondary-font';
+    padding: 0.5rem;
 }
 
 button:hover {
@@ -99,19 +106,42 @@ button:hover {
 }
 
 /* main body section */
-.main {
+.body {
     grid-area: 2 / 2 / 3 / 3;
     background: var(--primary-color);
-    /* background: linear-gradient(180deg, var(--primary-color), var(--tertiary-color)); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.footer {
+#body-content-container {
+    box-sizing: border-box;
+    height: 90%;
+    width: 75%;
+    border: var(--border);
+    color: var(--font-color);
+    font-family: 'Primary-font';
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--gap);
+}
+
+.body-title {
+    font-size: 3rem;
+    border-bottom: var(--border);
+    border-right: var(--border);
+    padding: 1rem;
+}
+
+footer {
     grid-area: 3 / 1 / 4 / 3;
 }
 
-.header,
-.footer {
-    background-color: var(--tertiary-color);
+header,
+footer {
+    background-color: var(--secondary-color);
 }
 
 .content > div {
