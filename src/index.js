@@ -1,11 +1,10 @@
 import './style.css';
-import allTasks from './allTasks.js';
-import createTask from './todo-factory.js';
+import displayAllTasks from './allTasks.js';
 
-function pageLoad() {
-    const elements = allTasks();
+function allTasksPage() {
+    const elements = displayAllTasks();
+
     const content = document.getElementById('body-content-container');
-
     elements.forEach(element => {
         content.appendChild(element)
     });
@@ -13,6 +12,4 @@ function pageLoad() {
     return elements;
 }
 
-createTask();
-
-document.addEventListener('DOMContentLoaded', pageLoad());
+document.addEventListener('DOMContentLoaded', allTasksPage);
