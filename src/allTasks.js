@@ -20,6 +20,9 @@ export default function displayAllTasks() {
         addTaskButton.disabled = true;
 
         const form = document.createElement('form');
+        const formLeft = document.createElement('div');
+        const formRight = document.createElement('div');
+        const formBottom = document.createElement('div');
 
         const titleLabel = document.createElement('label');
         titleLabel.setAttribute('for', 'title');
@@ -39,25 +42,73 @@ export default function displayAllTasks() {
         descriptionInput.setAttribute('name', 'description');
         descriptionInput.rows = 2;
 
+        const dateLabel = document.createElement('label');
+        dateLabel.setAttribute('for', 'date');
+        const dateInput = document.createElement('input');
+        dateInput.setAttribute('type', 'date');
+        dateInput.setAttribute('id', 'date');
+        dateInput.setAttribute('name', 'date');
+
+        const selectLabel = document.createElement('label');
+        selectLabel.setAttribute('for', 'priority-selection');
+        const selectInput = document.createElement('select');
+        selectInput.setAttribute('id', 'priority-selection');
+        const placeholderOption = document.createElement('option');
+        placeholderOption.text = 'Priority';
+        placeholderOption.disabled = true;
+        placeholderOption.selected = true;
+        const option1 = document.createElement('option');
+        option1.value = 'low';
+        option1.text = 'Low';
+        const option2 = document.createElement('option');
+        option2.value = 'medium';
+        option2.text = 'Medium';
+        const option3 = document.createElement('option');
+        option3.value = 'high';
+        option3.text = 'High';
+
+        const submitButton = document.createElement('button');
+        submitButton.setAttribute('type', 'button');
+        submitButton.textContent = 'Add';
+        const cancelButton = document.createElement('button');
+        submitButton.setAttribute('type', 'button');
+        cancelButton.textContent = 'Cancel';
+
         formContainer.appendChild(form);
+        form.appendChild(formLeft);
+        form.appendChild(formRight);
+        form.appendChild(formBottom);
 
         form.classList.add('form');
-        form.appendChild(titleLabel);
-        form.appendChild(titleInput);
+        formLeft.classList.add('form-left');
+        formRight.classList.add('form-right');
+        formBottom.classList.add('form-bottom');
+        formLeft.appendChild(titleLabel);
+        formLeft.appendChild(titleInput);
         titleInput.classList.add('form-title');
 
-        form.appendChild(descriptionLabel);
-        form.appendChild(descriptionInput);
+        formLeft.appendChild(descriptionLabel);
+        formLeft.appendChild(descriptionInput);
         descriptionInput.classList.add('form-description');
+
+        formRight.appendChild(dateLabel);
+        formRight.appendChild(dateInput);
+        dateInput.classList.add('form-date');
+
+        formRight.appendChild(selectLabel);
+        formRight.appendChild(selectInput);
+        selectInput.appendChild(placeholderOption);
+        selectInput.appendChild(option1);
+        selectInput.appendChild(option2);
+        selectInput.appendChild(option3);
+        selectInput.classList.add('form-select');
+
+        formBottom.appendChild(submitButton);
+        submitButton.classList.add('submit-button')
+        formBottom.appendChild(cancelButton);
+        cancelButton.classList.add('cancel-button');
+        formBottom.classList.add('form-bottom');
     });
-
-
-
-
-
-
-
-
 
     //container; hold task/quest
     // const taskContainer = document.createElement('div');
