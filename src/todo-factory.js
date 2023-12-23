@@ -1,6 +1,6 @@
 let tasks = [];
 
-//manages the creation of task objects
+//creates task objects
 export default function createTask(title, description, dueDate, priority, status) {
     const task = {
         title: title,
