@@ -12,18 +12,24 @@ export default function displayAllTasks() {
     const addTaskButton = document.createElement('button');
     addTaskButton.innerHTML = '|+| Add Quest';
 
-    //create form 
+    //create form-container
     const formContainer = document.createElement('div');
     formContainer.classList.add('form-container');
 
+    //here
+    const bodyContentContainer = document.getElementById('body-content-container');
+
     addTaskButton.addEventListener('click', function() {
+        //disable button until form is canceled/submitted
         addTaskButton.disabled = true;
 
+        //form layout
         const form = document.createElement('form');
         const formLeft = document.createElement('div');
         const formRight = document.createElement('div');
         const formBottom = document.createElement('div');
 
+        //title of todo item
         const titleLabel = document.createElement('label');
         titleLabel.setAttribute('for', 'title');
         const titleInput = document.createElement('input');
@@ -33,6 +39,7 @@ export default function displayAllTasks() {
         titleInput.setAttribute('name', 'title');
         titleInput.setAttribute('required', '');
 
+        //description of todo
         const descriptionLabel = document.createElement('label');
         descriptionLabel.setAttribute('for', 'description');
         const descriptionInput = document.createElement('textarea');
@@ -42,6 +49,7 @@ export default function displayAllTasks() {
         descriptionInput.setAttribute('name', 'description');
         descriptionInput.rows = 2;
 
+        //due date of todo
         const dateLabel = document.createElement('label');
         dateLabel.setAttribute('for', 'date');
         const dateInput = document.createElement('input');
@@ -49,6 +57,7 @@ export default function displayAllTasks() {
         dateInput.setAttribute('id', 'date');
         dateInput.setAttribute('name', 'date');
 
+        //priority todo selector
         const selectLabel = document.createElement('label');
         selectLabel.setAttribute('for', 'priority-selection');
         const selectInput = document.createElement('select');
@@ -67,13 +76,18 @@ export default function displayAllTasks() {
         option3.value = 'high';
         option3.text = 'High';
 
+        //submit/add and cancel buttons
         const submitButton = document.createElement('button');
-        submitButton.setAttribute('type', 'button');
+        submitButton.setAttribute('type', 'submit');
         submitButton.textContent = 'Add';
         const cancelButton = document.createElement('button');
-        submitButton.setAttribute('type', 'button');
+        cancelButton.setAttribute('type', 'cancel');
         cancelButton.textContent = 'Cancel';
 
+        //adds form to page after button is clicked
+        bodyContentContainer.appendChild(formContainer);
+
+        //append elements to form and add classes
         formContainer.appendChild(form);
         form.appendChild(formLeft);
         form.appendChild(formRight);
@@ -123,5 +137,5 @@ export default function displayAllTasks() {
     // });
 
     //returns to index.js page
-    return [titleElement, formContainer, addTaskButton];
+    return [titleElement, addTaskButton];
 }

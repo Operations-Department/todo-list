@@ -17,6 +17,8 @@ html {
     --border: 1px solid var(--border-color);
     --font-color: white;
     --gap: 1rem;
+    --cancel-color: #ff0000e6;
+    --submit-color: #0acf0acf;
 }
 
 @font-face {
@@ -151,7 +153,8 @@ button:hover {
 .form-container{
     height: 15rem;
     width: 100%;
-    border: 1px solid gold;
+    /* border: 1px solid gold; */
+    background-color: #42386f9c;
     box-sizing: border-box;
 }
 
@@ -190,25 +193,26 @@ button:hover {
     gap: 1rem;
 }
 
+/* submit-button aka add-button */
 .submit-button:hover {
-    background-color: #008000a3;
+    box-shadow: 5px 5px 0px var(--submit-color);
+    color: var(--submit-color);
 }
 
 .cancel-button:hover {
-    background-color: #ff000094;
+    box-shadow: 5px 5px 0px var(--cancel-color);
+    color: var(--cancel-color);
 }
 
 .submit-button, 
 .cancel-button {
     height: 3rem;
     width: 8rem;
-    border: 1px solid var(--border-color);
     border-radius: 0.5rem;
 }
 
 .form-bottom > button:hover {
-    transform: none;
-    border: none;
+    transform: translateY(-10px);
 }
 
 .form-title,
@@ -237,6 +241,7 @@ button:hover {
     height: 2rem;
     width: 50%;
     padding: 0;
+    padding-left: 0.2rem;
 }
 
 .task-container {
