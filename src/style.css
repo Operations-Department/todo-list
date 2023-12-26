@@ -177,8 +177,9 @@ button:hover {
     gap: 0.5rem;
 }
 
-.from-left {
+.form-left {
     grid-area: 1 / 1 / 2 / 2;
+    overflow: auto;
 }
 
 .form-right {
@@ -195,13 +196,17 @@ button:hover {
 
 /* submit-button aka add-button */
 .submit-button:hover {
-    box-shadow: 5px 5px 0px var(--submit-color);
+    box-shadow: 0px 5px 0px var(--submit-color);
     color: var(--submit-color);
+    border-left: 1px solid var(--submit-color);
+    border-right: 1px solid var(--submit-color);
 }
 
 .cancel-button:hover {
-    box-shadow: 5px 5px 0px var(--cancel-color);
+    box-shadow: 0px 5px 0px var(--cancel-color);
     color: var(--cancel-color);
+    border-left: 1px solid var(--cancel-color);
+    border-right: 1px solid var(--cancel-color);
 }
 
 .submit-button, 

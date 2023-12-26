@@ -1,8 +1,8 @@
 import './style.css';
-import displayAllTasks from './allTasks.js';
+import { createAllQuestsPage } from './allTasks.js';
 
 function allTasksPage() {
-    const elements = displayAllTasks();
+    const elements = createAllQuestsPage();
 
     const content = document.getElementById('body-content-container');
     elements.forEach(element => {
