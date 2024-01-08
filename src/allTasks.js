@@ -1,7 +1,7 @@
 import createTask from "./todo-factory";
 
 //dom stuff for the all-tasks page
-export function createAllQuestsPage() {
+export default function createAllQuestsPage() {
 
     //title of the page
     const titleElement = document.createElement('h1');
@@ -23,10 +23,18 @@ export function createAllQuestsPage() {
         //disable button until form is canceled/submitted
         addTaskButton.disabled = true;
 
-        //call create form functions****************
+        //call create form container and inner containers
+        const { form, formLeft, formRight, formBottom } = createFormLayout(formContainer);   
 
         //adds form to page after button is clicked
         bodyContentContainer.appendChild(formContainer);
+
+        //call from funcitons to fill in form
+        createFormTitle(formLeft);
+        createFormDescription(formLeft);
+        createFormDate(formRight);
+        createFormPrioritySelector(formRight);
+        createFormButtons(formBottom);
     });
 
     //returns to index.js page
@@ -182,7 +190,7 @@ export function addTask() {
         const title = document.getElementById('title').value;
         const description = document.getElementById('description').value;
         const date = document.getElementById('date').value;
-        const priority = document.getElementsByName('priority-selection').value;
+        const priority = document.getElementById('priority-selection').value;
 
         const newTask = {
             title: title,

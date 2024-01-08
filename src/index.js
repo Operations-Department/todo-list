@@ -1,15 +1,12 @@
 import './style.css';
-import { createAllQuestsPage } from './allTasks.js';
+import createAllQuestsPage from './allTasks.js';
 
 function allTasksPage() {
-    const elements = createAllQuestsPage();
+    const { titleElement, addTaskButton } = createAllQuestsPage();
 
     const content = document.getElementById('body-content-container');
-    elements.forEach(element => {
-        content.appendChild(element)
-    });
-
-    return elements;
+    content.appendChild(titleElement);
+    content.appendChild(addTaskButton);
 }
 
 document.addEventListener('DOMContentLoaded', allTasksPage);

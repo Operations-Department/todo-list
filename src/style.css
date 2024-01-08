@@ -194,7 +194,7 @@ button:hover {
     gap: 1rem;
 }
 
-/* submit-button aka add-button */
+/* submit-button/add-button */
 .submit-button:hover {
     box-shadow: 0px 5px 0px var(--submit-color);
     color: var(--submit-color);
