@@ -154,8 +154,10 @@ button:hover {
     height: 15rem;
     width: 100%;
     /* border: 1px solid gold; */
-    background-color: #42386f9c;
+    background-color: #3a335b;
     box-sizing: border-box;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .form {
@@ -171,8 +173,10 @@ button:hover {
 .form-left,
 .form-right {
     display: flex;
+    height: 100%;
+    width: 100%;
     flex-direction: column;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
     gap: 0.5rem;
 }

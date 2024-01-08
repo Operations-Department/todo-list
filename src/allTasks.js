@@ -18,30 +18,33 @@ export default function createAllQuestsPage() {
 
     const bodyContentContainer = document.getElementById('body-content-container');
 
+    //create form to enter tasks
     addTaskButton.addEventListener('click', function() {
 
         //disable button until form is canceled/submitted
         addTaskButton.disabled = true;
 
         //call create form container and inner containers
-        const { form, formLeft, formRight, formBottom } = createFormLayout(formContainer);   
+        const { form, formLeft, formRight, formBottom } = taskFormObject.createFormLayout(formContainer);   
 
         //adds form to page after button is clicked
         bodyContentContainer.appendChild(formContainer);
 
-        //call from funcitons to fill in form
-        createFormTitle(formLeft);
-        createFormDescription(formLeft);
-        createFormDate(formRight);
-        createFormPrioritySelector(formRight);
-        createFormButtons(formBottom);
+        //call form functions to fill in form
+        taskFormObject.createFormTitle(formLeft);
+        taskFormObject.createFormDescription(formLeft);
+        taskFormObject.createFormDate(formRight);
+        taskFormObject.createFormPrioritySelector(formRight);
+        taskFormObject.createFormButtons(formBottom);
     });
 
     //returns to index.js page
     return { titleElement, addTaskButton };
 }
 
-function createFormLayout(formContainer) {
+const taskFormObject = {
+
+    createFormLayout(formContainer) {
 
     //create form objects
     const form = document.createElement('form');
@@ -62,9 +65,9 @@ function createFormLayout(formContainer) {
     formBottom.classList.add('form-bottom');
 
     return { form, formLeft, formRight, formBottom };
-}
+    },
 
-function createFormTitle(formLeft) {
+    createFormTitle(formLeft) {
 
     //create title elements
     const titleLabel = document.createElement('label');
@@ -84,9 +87,9 @@ function createFormTitle(formLeft) {
     titleInput.classList.add('form-title');
 
     return { titleLabel, titleInput };
-}
+    },
 
-function createFormDescription(formLeft) {
+    createFormDescription(formLeft) {
 
     //create description elements
     const descriptionLabel = document.createElement('label');
@@ -106,9 +109,9 @@ function createFormDescription(formLeft) {
     descriptionInput.classList.add('form-description');
 
     return { descriptionLabel, descriptionInput };
-}
+    },
 
-function createFormDate(formRight) {
+    createFormDate(formRight) {
 
     //create date elements
     const dateLabel = document.createElement('label');
@@ -126,9 +129,9 @@ function createFormDate(formRight) {
     dateInput.classList.add('form-date');
 
     return { dateLabel, dateInput };
-}
+    },
 
-function createFormPrioritySelector(formRight) {
+    createFormPrioritySelector(formRight) {
 
     //create priority selection dropbox and options
     const selectLabel = document.createElement('label');
@@ -161,9 +164,9 @@ function createFormPrioritySelector(formRight) {
     selectInput.classList.add('form-select');
 
     return { selectLabel, selectInput, placeholderOption, option1, option2, option3 };
-}
+    },
 
-function createFormButtons(formBottom) {
+    createFormButtons(formBottom) {
 
     //create button elements
     const submitButton = document.createElement('button');
@@ -177,27 +180,30 @@ function createFormButtons(formBottom) {
     formBottom.appendChild(submitButton);
     submitButton.setAttribute('id', 'submit-button');
     formBottom.appendChild(cancelButton);
+    cancelButton.setAttribute('id', 'cancel-button')
 
     //add classes
     submitButton.classList.add('submit-button')
     cancelButton.classList.add('cancel-button');    
 
     return { submitButton, cancelButton };
+    }
+
 }
 
-export function addTask() {
+function addTask() {
 
-        const title = document.getElementById('title').value;
-        const description = document.getElementById('description').value;
-        const date = document.getElementById('date').value;
-        const priority = document.getElementById('priority-selection').value;
+    const title = document.getElementById('title').value;
+    const description = document.getElementById('description').value;
+    const date = document.getElementById('date').value;
+    const priority = document.getElementById('priority-selection').value;
 
-        const newTask = {
-            title: title,
-            description: description,
-            date: date,
-            priority: priority,
-        };
+    const newTask = {
+        title: title,
+        description: description,
+        date: date,
+        priority: priority,
+    };
 
     tasks.push(newTask);
     return tasks;
