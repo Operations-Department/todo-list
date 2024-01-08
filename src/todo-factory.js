@@ -7,7 +7,7 @@ export default function createTask(title, description, dueDate, priority, status
         description: description,
         dueDate: dueDate,
         priority: priority,
-        status: status
+        status: status,
     };
 
     tasks.push(task);

@@ -17,8 +17,8 @@ html {
     --border: 1px solid var(--border-color);
     --font-color: white;
     --gap: 1rem;
-    --cancel-color: #ff0000e6;
-    --submit-color: #0acf0acf;
+    --cancel-color: #a52f2f;
+    --submit-color: #026e02cf;
 }
 
 @font-face {
@@ -51,6 +51,9 @@ header {
     align-items: center;
     font-family: 'Primary-font';
     color: var(--font-color);
+    background: url(./imgs/backdrop-2.jpg);
+    background-size: 100% 100%;
+    background-attachment: fixed;
     font-size: 5rem;
     gap: var(--gap);
     border-bottom: var(--border);
@@ -153,11 +156,13 @@ button:hover {
 .form-container{
     height: 15rem;
     width: 100%;
-    /* border: 1px solid gold; */
-    background-color: #3a335b;
+    /* background-color: #3a335b; */
+    background: url(./imgs/backdrop-2.jpg);
+    background-size: 100% 100%;
+    background-attachment: fixed;
     box-sizing: border-box;
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
+    border-top: var(--border);
+    border-bottom: var(--border);
 }
 
 .form {
@@ -271,11 +276,10 @@ footer {
     font-family: 'Secondary-font';
     color: white;
     font-size: 1rem;
-}
-
-header,
-footer {
-    background-color: var(--secondary-color);
+    background: url(./imgs/backdrop-2.jpg);
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    border-top: var(--border);
 }
 
 .content > div {
