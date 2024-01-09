@@ -1,6 +1,8 @@
 import './style.css';
 import { createAllQuestsPage } from './allTasks.js';
 
+document.addEventListener('DOMContentLoaded', allQuestsPage);
+
 function allQuestsPage() {
     //import task creation tools
     const { titleElement, addTaskButton } = createAllQuestsPage();
@@ -11,5 +13,3 @@ function allQuestsPage() {
     content.appendChild(addTaskButton);
 
 }
-
-document.addEventListener('DOMContentLoaded', allQuestsPage);

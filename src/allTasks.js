@@ -1,9 +1,9 @@
 import { createTask, getTasks } from "./todo-factory";
 
 export function createAllQuestsPage() {
-    const titleElement = createPageTitle();
-    const addTaskButton = createAddTaskButton();
-    const formContainer = createFormContainer();
+    const titleElement = pageElementsObject.createPageTitle();
+    const addTaskButton = pageElementsObject.createAddTaskButton();
+    const formContainer = pageElementsObject.createFormContainer();
 
     addTaskButton.addEventListener('click', function() {
         handleAddTaskClick(addTaskButton, formContainer);
@@ -12,23 +12,27 @@ export function createAllQuestsPage() {
     return { titleElement, addTaskButton };
 }
 
-function createPageTitle() {
-    const titleElement = document.createElement('h1');
-    titleElement.innerHTML = 'All Quests';
-    titleElement.classList.add('body-title');
-    return titleElement;
-}
+const pageElementsObject = {
 
-function createAddTaskButton() {
-    const addTaskButton = document.createElement('button');
-    addTaskButton.textContent = '|+| Add Quest';
-    return addTaskButton;
-}
+    createPageTitle() {
+        const titleElement = document.createElement('h1');
+        titleElement.innerHTML = 'All Quests';
+        titleElement.classList.add('body-title');
+        return titleElement;
+    },
 
-function createFormContainer() {
-    const formContainer = document.createElement('div');
-    formContainer.classList.add('form-container');
-    return formContainer;
+    createAddTaskButton() {
+        const addTaskButton = document.createElement('button');
+        addTaskButton.textContent = '|+| Add Quest';
+        return addTaskButton;
+    },
+
+    createFormContainer() {
+        const formContainer = document.createElement('div');
+        formContainer.classList.add('form-container');
+        return formContainer;
+    }
+
 }
 
 function handleAddTaskClick(addTaskButton, formContainer) {
@@ -39,7 +43,7 @@ function handleAddTaskClick(addTaskButton, formContainer) {
     bodyContentContainer.appendChild(formContainer);
     formContainer.appendChild(form);
 
-    // Call form functions to fill in the form...
+    //call form functions to fill in the form...
 
     taskFormObject.createFormTitle(formLeft);
     taskFormObject.createFormDescription(formLeft);
@@ -47,9 +51,19 @@ function handleAddTaskClick(addTaskButton, formContainer) {
     taskFormObject.createFormPrioritySelector(formRight);
     const { submitButton, cancelButton } = taskFormObject.createFormButtons(formBottom);
 
-    submitButton.addEventListener('click', function() {
-        const { newTask, tasks } = addTask();
-        tasks.push(newTask);
+    submitButton.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        const titleInput = document.getElementById('title').value.trim();
+
+        if (!titleInput) {
+            alert ('Please fill in the title');
+            return;
+        }
+
+        addTask();
+        const tasks = getTasks();
+        updateTaskList(tasks);
         addTaskButton.disabled = false;
         removeForm(formContainer);
     });
@@ -60,9 +74,41 @@ function handleAddTaskClick(addTaskButton, formContainer) {
     });
 }
 
+function updateTaskList(tasks) {
+    const bodyContentContainer = document.getElementById('body-content-container');
+    const taskContainer = document.createElement('div');
+    bodyContentContainer.appendChild(taskContainer);
+
+    tasks.forEach(task => {
+        taskContainer.innerHTML = '';
+        
+        const taskElementLeft = document.createElement('div');
+        const taskElementRight = document.createElement('div');
+
+        taskElementLeft.innerHTML = `
+            <button class="task-complete-button"></button>
+            <h2 class="task-title">${task.title}</h2>
+            <p class="task-description">${task.description}</p>
+            `;
+        taskElementRight.innerHTML = `
+            <p class="task-priority">${task.priority}</p>
+            <p class="task-status">${task.status}</p>
+            <p class="task-due-date">${task.dueDate}</p>
+            <button class="task-delete">delete</button>
+            `;
+
+        taskContainer.appendChild(taskElementLeft);
+        taskContainer.appendChild(taskElementRight);
+        taskContainer.classList.add('task-container');
+        taskElementLeft.classList.add('task-element-left');
+        taskElementRight.classList.add('task-element-right');
+
+    });    
+}
+
 function removeForm(formContainer) {
     const bodyContentContainer = document.getElementById('body-content-container');
-    formContainer.removeChild(formContainer.firstChild); // Assuming the form is the only child
+    formContainer.removeChild(formContainer.firstChild);
     bodyContentContainer.removeChild(formContainer);
 }
 
@@ -225,5 +271,5 @@ export function addTask() {
 
     const newTask = createTask(title, description, dueDate, priority, 'pending');
 
-    return { newTask };
+    return newTask;
 }
