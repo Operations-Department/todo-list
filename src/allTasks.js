@@ -1,64 +1,72 @@
-import createTask from "./todo-factory";
+import { createTask, getTasks } from "./todo-factory";
 
-//dom stuff for the all-tasks page
-export default function createAllQuestsPage() {
+export function createAllQuestsPage() {
+    const titleElement = createPageTitle();
+    const addTaskButton = createAddTaskButton();
+    const formContainer = createFormContainer();
 
-    //title of the page
-    const titleElement = document.createElement('h1');
-    titleElement.innerHTML = 'All Quests';
-    titleElement.classList.add('body-title');
-
-    //add task button
-    const addTaskButton = document.createElement('button');
-    addTaskButton.textContent = '|+| Add Quest';
-
-    //create form-container
-    const formContainer = document.createElement('div');
-    formContainer.classList.add('form-container');
-
-    const bodyContentContainer = document.getElementById('body-content-container');
-
-    //create form to enter tasks
     addTaskButton.addEventListener('click', function() {
-
-        //disable button until form is canceled/submitted
-        addTaskButton.disabled = true;
-
-        //call create form container and inner containers
-        const { form, formLeft, formRight, formBottom } = taskFormObject.createFormLayout(formContainer);   
-
-        //adds form to page after button is clicked
-        bodyContentContainer.appendChild(formContainer);
-
-        //call form functions to fill in form
-        taskFormObject.createFormTitle(formLeft);
-        taskFormObject.createFormDescription(formLeft);
-        taskFormObject.createFormDate(formRight);
-        taskFormObject.createFormPrioritySelector(formRight);
-        // taskFormObject.createFormButtons(formBottom); //commented out to prevent duplicate buttons
-
-        //assign button variables for eventListener and create buttons within the form simultaneously
-        const { submitButton, cancelButton } = taskFormObject.createFormButtons(formBottom);
-
-        //submit the form (outside of this function creates duplicate buttons when assigned and called)
-        submitButton.addEventListener('click', function() {
-            console.log('hello');
-        });
-
-        cancelButton.addEventListener('click', function() {
-            //re-enable button
-            addTaskButton.disabled = false;
-            
-            //remove form + form container
-            formContainer.removeChild(form); //prevents multiple forms added if add button clicked again
-            bodyContentContainer.removeChild(formContainer);
-        });
+        handleAddTaskClick(addTaskButton, formContainer);
     });
 
-    //returns to index.js page
     return { titleElement, addTaskButton };
 }
 
+function createPageTitle() {
+    const titleElement = document.createElement('h1');
+    titleElement.innerHTML = 'All Quests';
+    titleElement.classList.add('body-title');
+    return titleElement;
+}
+
+function createAddTaskButton() {
+    const addTaskButton = document.createElement('button');
+    addTaskButton.textContent = '|+| Add Quest';
+    return addTaskButton;
+}
+
+function createFormContainer() {
+    const formContainer = document.createElement('div');
+    formContainer.classList.add('form-container');
+    return formContainer;
+}
+
+function handleAddTaskClick(addTaskButton, formContainer) {
+    addTaskButton.disabled = true;
+
+    const { form, formLeft, formRight, formBottom } = taskFormObject.createFormLayout(formContainer);
+    const bodyContentContainer = document.getElementById('body-content-container');
+    bodyContentContainer.appendChild(formContainer);
+    formContainer.appendChild(form);
+
+    // Call form functions to fill in the form...
+
+    taskFormObject.createFormTitle(formLeft);
+    taskFormObject.createFormDescription(formLeft);
+    taskFormObject.createFormDate(formRight);
+    taskFormObject.createFormPrioritySelector(formRight);
+    const { submitButton, cancelButton } = taskFormObject.createFormButtons(formBottom);
+
+    submitButton.addEventListener('click', function() {
+        const { newTask, tasks } = addTask();
+        tasks.push(newTask);
+        addTaskButton.disabled = false;
+        removeForm(formContainer);
+    });
+
+    cancelButton.addEventListener('click', function() {
+        addTaskButton.disabled = false;
+        removeForm(formContainer);
+    });
+}
+
+function removeForm(formContainer) {
+    const bodyContentContainer = document.getElementById('body-content-container');
+    formContainer.removeChild(formContainer.firstChild); // Assuming the form is the only child
+    bodyContentContainer.removeChild(formContainer);
+}
+
+//object to store functions that create form to generate individual tasks
 const taskFormObject = {
 
     createFormLayout(formContainer) {
@@ -208,20 +216,14 @@ const taskFormObject = {
 }
 
 //called by submit button to put task onto page
-function addTask() {
+export function addTask() {
 
     const title = document.getElementById('title').value;
     const description = document.getElementById('description').value;
-    const date = document.getElementById('date').value;
+    const dueDate = document.getElementById('date').value;
     const priority = document.getElementById('priority-selection').value;
 
-    const newTask = {
-        title: title,
-        description: description,
-        date: date,
-        priority: priority,
-    };
+    const newTask = createTask(title, description, dueDate, priority, 'pending');
 
-    tasks.push(newTask);
-    return tasks;
+    return { newTask };
 }
