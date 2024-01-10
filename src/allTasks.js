@@ -1,5 +1,6 @@
 import { createTask, getTasks } from "./todo-factory";
 
+//main function to populate the page
 export function createAllQuestsPage() {
     const titleElement = pageElementsObject.createPageTitle();
     const addTaskButton = pageElementsObject.createAddTaskButton();
@@ -12,6 +13,7 @@ export function createAllQuestsPage() {
     return { titleElement, addTaskButton };
 }
 
+//object to store base items on the page (title, first button etc)
 const pageElementsObject = {
     createPageTitle() {
         const titleElement = document.createElement('h1');
@@ -31,91 +33,6 @@ const pageElementsObject = {
         formContainer.classList.add('form-container');
         return formContainer;
     }
-}
-
-function handleAddTaskClick(addTaskButton, formContainer) {
-    addTaskButton.disabled = true;
-
-    const { form, formLeft, formRight, formBottom } = taskFormObject.createFormLayout(formContainer);
-    const bodyContentContainer = document.getElementById('body-content-container');
-    bodyContentContainer.appendChild(formContainer);
-    formContainer.appendChild(form);
-
-    //call form functions to fill in the form...
-
-    taskFormObject.createFormTitle(formLeft);
-    taskFormObject.createFormDescription(formLeft);
-    taskFormObject.createFormDate(formRight);
-    // taskFormObject.createFormPrioritySelector(formRight);
-    const { submitButton, cancelButton } = taskFormObject.createFormButtons(formBottom);
-
-    //attach event listeners to created submit/cancel buttons
-    formButtonsObject.attachSubmitListener(submitButton, cancelButton, formContainer, addTaskButton);
-    formButtonsObject.attachCancelListener(submitButton, cancelButton, formContainer, addTaskButton);
-}
-
-const formButtonsObject = {
-attachSubmitListener(submitButton, cancelButton, formContainer, addTaskButton) {
-        submitButton.addEventListener('click', function(event) {
-            event.preventDefault();
-
-            const titleInput = document.getElementById('title').value.trim();
-
-            if (!titleInput) {
-                alert ('Please fill in the title');
-                return;
-            }
-
-            addTask();
-            const tasks = getTasks();
-            updateTaskList(tasks);
-            addTaskButton.disabled = false;
-            removeForm(formContainer);
-        });
-    },
-    attachCancelListener(submitButton, cancelButton, formContainer, addTaskButton) {
-        cancelButton.addEventListener('click', function() {
-            addTaskButton.disabled = false;
-            removeForm(formContainer);
-        });
-    }
-};
-
-function updateTaskList(tasks) {
-    const bodyContentContainer = document.getElementById('body-content-container');
-    const taskContainer = document.createElement('div');
-    bodyContentContainer.appendChild(taskContainer);
-
-    tasks.forEach(task => {
-        taskContainer.innerHTML = '';
-        
-        const taskElementLeft = document.createElement('div');
-        const taskElementRight = document.createElement('div');
-
-        taskElementLeft.innerHTML = `
-            <button class="task-complete-button"></button>
-            <h2 class="task-title">${task.title}</h2>
-            <p class="task-description">${task.description}</p>
-            `;
-        taskElementRight.innerHTML = `
-            <p class="task-due-date">${task.dueDate}</p>
-            <button class="task-delete">edit</button>
-            <button class="task-delete">delete</button>
-            `;
-
-        taskContainer.appendChild(taskElementLeft);
-        taskContainer.appendChild(taskElementRight);
-        taskContainer.classList.add('task-container');
-        taskElementLeft.classList.add('task-element-left');
-        taskElementRight.classList.add('task-element-right');
-
-    });    
-}
-
-function removeForm(formContainer) {
-    const bodyContentContainer = document.getElementById('body-content-container');
-    formContainer.removeChild(formContainer.firstChild);
-    bodyContentContainer.removeChild(formContainer);
 }
 
 //object to store functions that create form to generate individual tasks
@@ -267,6 +184,76 @@ const taskFormObject = {
     }
 }
 
+const formActionsObject = {
+
+    attachSubmitListener(submitButton, cancelButton, formContainer, addTaskButton, dateInput) {
+
+        submitButton.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            const titleInput = document.getElementById('title').value.trim();
+
+            if (!titleInput) {
+                alert ('Please fill in the title');
+                return;
+            }
+
+            addTask();
+            const tasks = getTasks();
+            formActionsObject.updateTaskList(tasks);
+            addTaskButton.disabled = false;
+            formActionsObject.removeForm(formContainer);
+        });
+    },
+
+    attachCancelListener(submitButton, cancelButton, formContainer, addTaskButton) {
+
+        cancelButton.addEventListener('click', function() {
+            addTaskButton.disabled = false;
+            removeForm(formContainer);
+        });
+    },
+    
+    updateTaskList(tasks) {
+
+        const bodyContentContainer = document.getElementById('body-content-container');
+        const taskContainer = document.createElement('div');
+        bodyContentContainer.appendChild(taskContainer);
+    
+        tasks.forEach(task => {
+            taskContainer.innerHTML = '';
+            
+            const taskElementLeft = document.createElement('div');
+            const taskElementRight = document.createElement('div');
+    
+            taskElementLeft.innerHTML = `
+                <button class="task-complete-button"></button>
+                <h2 class="task-title">${task.title}</h2>
+                <p class="task-description">${task.description}</p>
+                `;
+            taskElementRight.innerHTML = `
+                <p class="task-due-date">${task.dueDate}</p>
+                <button class="task-delete">edit</button>
+                <button class="task-delete">delete</button>
+                `;
+    
+            taskContainer.appendChild(taskElementLeft);
+            taskContainer.appendChild(taskElementRight);
+            taskContainer.classList.add('task-container');
+            taskElementLeft.classList.add('task-element-left');
+            taskElementRight.classList.add('task-element-right');
+        });    
+    },
+    
+    removeForm(formContainer) {
+
+        const bodyContentContainer = document.getElementById('body-content-container');
+        formContainer.removeChild(formContainer.firstChild);
+        bodyContentContainer.removeChild(formContainer);
+    }
+
+};
+
 //called by submit button to put task onto page
 export function addTask() {
 
@@ -278,4 +265,25 @@ export function addTask() {
     const newTask = createTask(title, description, dueDate);
 
     return newTask;
+}
+
+function handleAddTaskClick(addTaskButton, formContainer) {
+    addTaskButton.disabled = true;
+
+    const { form, formLeft, formRight, formBottom } = taskFormObject.createFormLayout(formContainer);
+    const bodyContentContainer = document.getElementById('body-content-container');
+    bodyContentContainer.appendChild(formContainer);
+    formContainer.appendChild(form);
+
+    //call form functions to fill in the form...
+
+    taskFormObject.createFormTitle(formLeft);
+    taskFormObject.createFormDescription(formLeft);
+    taskFormObject.createFormDate(formRight);
+    // taskFormObject.createFormPrioritySelector(formRight);
+    const { submitButton, cancelButton } = taskFormObject.createFormButtons(formBottom);
+
+    //attach event listeners to created submit/cancel buttons
+    formActionsObject.attachSubmitListener(submitButton, cancelButton, formContainer, addTaskButton);
+    formActionsObject.attachCancelListener(submitButton, cancelButton, formContainer, addTaskButton);
 }

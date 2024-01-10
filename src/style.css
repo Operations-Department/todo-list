@@ -293,7 +293,7 @@ li > button:hover {
 .form-date,
 .form-select {
     height: 2rem;
-    width: 55%;
+    width: 12rem;
     padding: 0;
     padding-left: 0.2rem;
 }
