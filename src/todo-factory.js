@@ -2,13 +2,11 @@
 const tasks = [];
 
 //creates task objects
-export function createTask(title, description, dueDate, priority, status) {
+export function createTask(title, description, dueDate) {
     const task = {
         title: title,
         description: description,
         dueDate: dueDate,
-        priority: priority,
-        status: status,
     };
 
     tasks.push(task);

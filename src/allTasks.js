@@ -48,7 +48,7 @@ function handleAddTaskClick(addTaskButton, formContainer) {
     taskFormObject.createFormTitle(formLeft);
     taskFormObject.createFormDescription(formLeft);
     taskFormObject.createFormDate(formRight);
-    taskFormObject.createFormPrioritySelector(formRight);
+    // taskFormObject.createFormPrioritySelector(formRight);
     const { submitButton, cancelButton } = taskFormObject.createFormButtons(formBottom);
 
     submitButton.addEventListener('click', function(event) {
@@ -91,9 +91,8 @@ function updateTaskList(tasks) {
             <p class="task-description">${task.description}</p>
             `;
         taskElementRight.innerHTML = `
-            <p class="task-priority">${task.priority}</p>
-            <p class="task-status">${task.status}</p>
             <p class="task-due-date">${task.dueDate}</p>
+            <button class="task-delete">edit</button>
             <button class="task-delete">delete</button>
             `;
 
@@ -202,40 +201,40 @@ const taskFormObject = {
         return { dateLabel, dateInput };
     },
 
-    createFormPrioritySelector(formRight) {
+    // createFormPrioritySelector(formRight) {
 
-        //create priority selection dropbox and options
-        const selectLabel = document.createElement('label');
-        selectLabel.setAttribute('for', 'priority-selection');
-        const selectInput = document.createElement('select');
-        selectInput.setAttribute('id', 'priority-selection');
-        const placeholderOption = document.createElement('option');
-        placeholderOption.text = 'Priority';
-        placeholderOption.disabled = true;
-        placeholderOption.selected = true;
-        const option1 = document.createElement('option');
-        option1.value = 'low';
-        option1.text = 'Low';
-        const option2 = document.createElement('option');
-        option2.value = 'medium';
-        option2.text = 'Medium';
-        const option3 = document.createElement('option');
-        option3.value = 'high';
-        option3.text = 'High';
+    //     //create priority selection dropbox and options
+    //     const selectLabel = document.createElement('label');
+    //     selectLabel.setAttribute('for', 'priority-selection');
+    //     const selectInput = document.createElement('select');
+    //     selectInput.setAttribute('id', 'priority-selection');
+    //     const placeholderOption = document.createElement('option');
+    //     placeholderOption.text = 'Priority';
+    //     placeholderOption.disabled = true;
+    //     placeholderOption.selected = true;
+    //     const option1 = document.createElement('option');
+    //     option1.value = 'low';
+    //     option1.text = 'Low';
+    //     const option2 = document.createElement('option');
+    //     option2.value = 'medium';
+    //     option2.text = 'Medium';
+    //     const option3 = document.createElement('option');
+    //     option3.value = 'high';
+    //     option3.text = 'High';
 
-        //append to right side
-        formRight.appendChild(selectLabel);
-        formRight.appendChild(selectInput);
-        selectInput.appendChild(placeholderOption);
-        selectInput.appendChild(option1);
-        selectInput.appendChild(option2);
-        selectInput.appendChild(option3);
+    //     //append to right side
+    //     formRight.appendChild(selectLabel);
+    //     formRight.appendChild(selectInput);
+    //     selectInput.appendChild(placeholderOption);
+    //     selectInput.appendChild(option1);
+    //     selectInput.appendChild(option2);
+    //     selectInput.appendChild(option3);
 
-        //add class
-        selectInput.classList.add('form-select');
+    //     //add class
+    //     selectInput.classList.add('form-select');
 
-        return { selectLabel, selectInput, placeholderOption, option1, option2, option3 };
-    },
+    //     return { selectLabel, selectInput, placeholderOption, option1, option2, option3 };
+    // },
 
     createFormButtons(formBottom) {
 
@@ -267,9 +266,9 @@ export function addTask() {
     const title = document.getElementById('title').value;
     const description = document.getElementById('description').value;
     const dueDate = document.getElementById('date').value;
-    const priority = document.getElementById('priority-selection').value;
+    // const priority = document.getElementById('priority-selection').value;
 
-    const newTask = createTask(title, description, dueDate, priority, 'pending');
+    const newTask = createTask(title, description, dueDate);
 
     return newTask;
 }
