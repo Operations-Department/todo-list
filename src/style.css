@@ -139,7 +139,7 @@ li > button,
     transition: ease-in-out 0.3s;
     font-size: 1.5rem;
     font-family: 'Secondary-font';
-    padding: 0.5rem;
+    padding: 0;
     background: none;
 }
 
@@ -147,7 +147,7 @@ li > button,
     animation: pulse 8s infinite;
     align-self: center;
     box-sizing: border-box;
-    padding: 0.5rem;
+    padding: 0.7rem;
 }
 
 #body-content-container > button:hover {
@@ -194,7 +194,7 @@ li > button:hover {
 }
 
 .form-container{
-    height: 15rem;
+    height: 12rem;
     width: 90%;
     background: url(./imgs/backdrop-2.jpg);
     background-size: 100% 100%;
@@ -211,7 +211,7 @@ li > button:hover {
     height: 100%;
     padding: 0.5rem;
     box-sizing: border-box;
-    gap: 0.5rem;
+    gap: 1.5rem;
 }
 
 .form-left,
@@ -259,8 +259,8 @@ li > button:hover {
 
 .submit-button, 
 .cancel-button {
-    height: 3rem;
-    width: 8rem;
+    height: 2.5rem;
+    width: 7rem;
     border-radius: 0.5rem;
 }
 
@@ -281,19 +281,19 @@ li > button:hover {
 }
 
 .form-title {
-    height: 1.5rem;
+    height: 1rem;
     width: 90%;
 }
 
 .form-description {
-    height: 3rem;
+    height: 2.5rem;
     width: 90%;
 }
 
 .form-date,
 .form-select {
-    height: 2.5rem;
-    width: 60%;
+    height: 2rem;
+    width: 55%;
     padding: 0;
     padding-left: 0.2rem;
 }
@@ -302,6 +302,7 @@ li > button:hover {
     transition: ease-in-out 0.3s;
     box-sizing: border-box;
     width: 90%;
+    height: 3rem;
     display: grid;
     grid-template-columns: 2fr 1fr;
     border-left: 1px solid var(--border-color);

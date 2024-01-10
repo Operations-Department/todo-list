@@ -13,7 +13,6 @@ export function createAllQuestsPage() {
 }
 
 const pageElementsObject = {
-
     createPageTitle() {
         const titleElement = document.createElement('h1');
         titleElement.innerHTML = 'All Quests';
@@ -32,7 +31,6 @@ const pageElementsObject = {
         formContainer.classList.add('form-container');
         return formContainer;
     }
-
 }
 
 function handleAddTaskClick(addTaskButton, formContainer) {
@@ -51,28 +49,37 @@ function handleAddTaskClick(addTaskButton, formContainer) {
     // taskFormObject.createFormPrioritySelector(formRight);
     const { submitButton, cancelButton } = taskFormObject.createFormButtons(formBottom);
 
-    submitButton.addEventListener('click', function(event) {
-        event.preventDefault();
-
-        const titleInput = document.getElementById('title').value.trim();
-
-        if (!titleInput) {
-            alert ('Please fill in the title');
-            return;
-        }
-
-        addTask();
-        const tasks = getTasks();
-        updateTaskList(tasks);
-        addTaskButton.disabled = false;
-        removeForm(formContainer);
-    });
-
-    cancelButton.addEventListener('click', function() {
-        addTaskButton.disabled = false;
-        removeForm(formContainer);
-    });
+    //attach event listeners to created submit/cancel buttons
+    formButtonsObject.attachSubmitListener(submitButton, cancelButton, formContainer, addTaskButton);
+    formButtonsObject.attachCancelListener(submitButton, cancelButton, formContainer, addTaskButton);
 }
+
+const formButtonsObject = {
+attachSubmitListener(submitButton, cancelButton, formContainer, addTaskButton) {
+        submitButton.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            const titleInput = document.getElementById('title').value.trim();
+
+            if (!titleInput) {
+                alert ('Please fill in the title');
+                return;
+            }
+
+            addTask();
+            const tasks = getTasks();
+            updateTaskList(tasks);
+            addTaskButton.disabled = false;
+            removeForm(formContainer);
+        });
+    },
+    attachCancelListener(submitButton, cancelButton, formContainer, addTaskButton) {
+        cancelButton.addEventListener('click', function() {
+            addTaskButton.disabled = false;
+            removeForm(formContainer);
+        });
+    }
+};
 
 function updateTaskList(tasks) {
     const bodyContentContainer = document.getElementById('body-content-container');
