@@ -11,5 +11,4 @@ function allQuestsPage() {
     const content = document.getElementById('body-content-container');
     content.appendChild(titleElement);
     content.appendChild(addTaskButton);
-
 }

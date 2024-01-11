@@ -1,15 +1,17 @@
 //task array to store all tasks
-const tasks = [];
+export const tasks = [];
 
 //creates task objects
-export function createTask(title, description, dueDate) {
+export function createTask(title, description, dueDate, status) {
     const task = {
         title: title,
         description: description,
         dueDate: dueDate,
+        status: 'incomplete',
     };
 
     tasks.push(task);
+    console.log(tasks);
     return task;
 }
 

@@ -78,6 +78,8 @@ header {
     align-items: center;
     justify-content: flex-start;
     font-size: 2rem;
+    /* overflow: hidden; */
+    white-space: nowrap;
 }
 
 .home-tasks {
@@ -184,6 +186,7 @@ li > button:hover {
     justify-content: flex-start;
     gap: var(--gap);
     overflow-y: auto;
+    padding-bottom: 1rem;
 }
 
 .body-title {
@@ -302,13 +305,15 @@ li > button:hover {
     transition: ease-in-out 0.3s;
     box-sizing: border-box;
     width: 90%;
-    height: 3rem;
+    height: auto;
     display: grid;
     grid-template-columns: 2fr 1fr;
     border-left: 1px solid var(--border-color);
     gap: 0.5rem;
     align-self: center;
     background-color: #3b3361;
+    overflow: hidden;
+    /* white-space: nowrap; */
 }
 
 .task-container:hover {
@@ -345,7 +350,24 @@ li > button:hover {
     flex-shrink: 0;
 }
 
+.completed-task {
+    background: #00f9003d;
+    border-left: 2px solid #04ff04;
+}
+
+.completed-task-text {
+    color: #ffffff69;
+    text-decoration: line-through;
+}
+
+.completed-checked {
+    border: none;   
+    background-image: url(./imgs/checked.png);
+    background-size: cover;
+}
+
 .task-complete-button:hover,
+.task-edit:hover,
 .task-delete:hover {
     cursor: pointer;
 }
@@ -358,6 +380,7 @@ li > button:hover {
     font-size: 1rem;
 }
 
+.task-edit,
 .task-delete {
     background: none;
     color: white;
