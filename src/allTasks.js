@@ -3,25 +3,32 @@ import { pageElementsObject } from "./page-elements";
 import { taskFormObject } from "./task-form";
 import { formActionsObject } from "./task-form-actions";
 
+const bodyContentContainer = document.getElementById('body-content-container');
+
 //main function to populate the page
 export function createAllQuestsPage() {
     const titleElement = pageElementsObject.createPageTitle();
     const addTaskButton = pageElementsObject.createAddTaskButton();
     const formContainer = pageElementsObject.createFormContainer();
 
+    //click to add new task
     addTaskButton.addEventListener('click', function() {
         handleAddTaskClick(addTaskButton, formContainer);
+    });
+
+    //click to toggle task completion
+    bodyContentContainer.addEventListener('click', function(event) {
+        handleCompleteTaskClick(event);
     });
 
     return { titleElement, addTaskButton };
 }
 
-//creates form when add task clicked
+//creates the task creation form
 function handleAddTaskClick(addTaskButton, formContainer) {
     addTaskButton.disabled = true;
 
     const { form, formLeft, formRight, formBottom } = taskFormObject.createFormLayout(formContainer);
-    const bodyContentContainer = document.getElementById('body-content-container');
     bodyContentContainer.appendChild(formContainer);
     formContainer.appendChild(form);
 
@@ -29,7 +36,6 @@ function handleAddTaskClick(addTaskButton, formContainer) {
     taskFormObject.createFormTitle(formLeft);
     taskFormObject.createFormDescription(formLeft);
     taskFormObject.createFormDate(formRight);
-
     // taskFormObject.createFormPrioritySelector(formRight);
     const { submitButton, cancelButton } = taskFormObject.createFormButtons(formBottom);
 
@@ -38,37 +44,62 @@ function handleAddTaskClick(addTaskButton, formContainer) {
     formActionsObject.attachCancelListener(submitButton, cancelButton, formContainer, addTaskButton);
 }
 
-const bodyContentContainer = document.getElementById('body-content-container');
+//matches id of task object and dom element
+function findClickedTask(event) {
 
-bodyContentContainer.addEventListener('click', function(event) {
-
-    if(event.target.classList.contains('task-complete-button')) {
-
-        //extract parent elements
+    if (event.target.classList.contains('task-complete-button')) {
         const taskContainer = event.target.closest('.task-container');
-        const taskElementLeft = event.target.closest('.task-element-left');
 
-        //extract title and desc. of the dom element
-        const domTitle = taskElementLeft.querySelector('.task-title');
-        const domDescription = taskElementLeft.querySelector('.task-description');
-
-        const clickedTask = tasks.find(task => {
-
-            //extract task id from dom and object
+        return tasks.find(task => {
+            
             const taskID = task.taskID;
             const taskContainerID = parseInt(taskContainer.dataset.taskId);
 
-            //compare to make sure only the clicked element is affected
             return taskID == taskContainerID;
         });
-
-        //update task status
-        clickedTask.status = 'complete';
-
-        //css to display completed status
-        taskContainer.classList.add('completed-task');
-        event.target.classList.add('completed-checked');
-        domTitle.classList.add('completed-task-text');
-        domDescription.classList.add('completed-task-text');
     }
-});
+
+    //if no task found
+    return null; 
+}
+
+//changes status + dom to complete
+function isComplete(task, taskContainer, event, domTitle, domDescription) {
+
+    //update task object status
+    task.status = 'complete';
+
+    //css to display completed status
+    taskContainer.classList.add('completed-task');
+    event.target.classList.add('completed-checked');
+    domTitle.classList.add('completed-task-text');
+    domDescription.classList.add('completed-task-text');
+}
+
+//changes status + dom to incomplete
+function isIncomplete(task, taskContainer, event, domTitle, domDescription) {
+
+    //update task object status
+    task.status = 'incomplete';
+
+    //css to display completed status
+    taskContainer.classList.remove('completed-task');
+    event.target.classList.remove('completed-checked');
+    domTitle.classList.remove('completed-task-text');
+    domDescription.classList.remove('completed-task-text');
+}
+
+//toggles task between complete and incomplete
+function handleCompleteTaskClick(event) {
+    const clickedTask = findClickedTask(event);
+
+    if (clickedTask) {
+        const taskContainer = event.target.closest('.task-container');
+        const taskElementLeft = event.target.closest('.task-element-left');
+        const domTitle = taskElementLeft.querySelector('.task-title');
+        const domDescription = taskElementLeft.querySelector('.task-description');
+
+        if (clickedTask.status === 'incomplete') return isComplete(clickedTask, taskContainer, event, domTitle, domDescription);
+        if (clickedTask.status === 'complete') return isIncomplete(clickedTask, taskContainer, event, domTitle, domDescription);
+    }
+}

@@ -58,9 +58,7 @@ export const formActionsObject = {
     
             taskContainer.appendChild(taskElementLeft);
             taskContainer.appendChild(taskElementRight);
-            
             taskContainer.setAttribute('data-task-id', task.taskID);
-
             taskContainer.classList.add('task-container');
             taskElementLeft.classList.add('task-element-left');
             taskElementRight.classList.add('task-element-right');
