@@ -16,7 +16,7 @@ export function createAllQuestsPage() {
     return { titleElement, addTaskButton };
 }
 
-//creates from when add task clicked
+//creates form when add task clicked
 function handleAddTaskClick(addTaskButton, formContainer) {
     addTaskButton.disabled = true;
 
@@ -48,18 +48,18 @@ bodyContentContainer.addEventListener('click', function(event) {
         const taskContainer = event.target.closest('.task-container');
         const taskElementLeft = event.target.closest('.task-element-left');
 
-        //get title and desc. of the dom element
+        //extract title and desc. of the dom element
         const domTitle = taskElementLeft.querySelector('.task-title');
         const domDescription = taskElementLeft.querySelector('.task-description');
 
         const clickedTask = tasks.find(task => {
 
-            //get title and desc. of the object itself
-            const taskTitle = task.title;
-            const taskDescription = task.description;
+            //extract task id from dom and object
+            const taskID = task.taskID;
+            const taskContainerID = parseInt(taskContainer.dataset.taskId);
 
             //compare to make sure only the clicked element is affected
-            return (domTitle.textContent == taskTitle && domDescription.textContent == taskDescription);
+            return taskID == taskContainerID;
         });
 
         //update task status
