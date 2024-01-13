@@ -21,6 +21,11 @@ export function createAllQuestsPage() {
         handleCompleteTaskClick(event);
     });
 
+    //click to delete task
+    bodyContentContainer.addEventListener('click', function(event) {
+        handleDeleteTaskClick(event);
+    });
+
     return { titleElement, addTaskButton };
 }
 
@@ -46,21 +51,46 @@ function handleAddTaskClick(addTaskButton, formContainer) {
 
 //matches id of task object and dom element
 function findClickedTask(event) {
+    const taskComplete = event.target.classList.contains('task-complete-button');
 
-    if (event.target.classList.contains('task-complete-button')) {
+    if (taskComplete) {
         const taskContainer = event.target.closest('.task-container');
+        const taskContainerID = parseInt(taskContainer.dataset.taskId);
 
-        return tasks.find(task => {
-            
-            const taskID = task.taskID;
-            const taskContainerID = parseInt(taskContainer.dataset.taskId);
-
-            return taskID == taskContainerID;
-        });
+        return tasks.find(task => task.taskID == taskContainerID);
     }
+        
+    return null; //if no task found
+}
 
-    //if no task found
-    return null; 
+//toggles task between complete and incomplete
+function handleCompleteTaskClick(event) {
+    const clickedTask = findClickedTask(event);
+
+    if (clickedTask) {
+        const taskContainer = event.target.closest('.task-container');
+        const taskElementLeft = event.target.closest('.task-element-left');
+        const domTitle = taskElementLeft.querySelector('.task-title');
+        const domDescription = taskElementLeft.querySelector('.task-description');
+
+        if (clickedTask.status === 'incomplete') return isComplete(clickedTask, taskContainer, event, domTitle, domDescription);
+        if (clickedTask.status === 'complete') return isIncomplete(clickedTask, taskContainer, event, domTitle, domDescription);
+    }
+}
+
+//deletes object in task array and removes dom display element
+function handleDeleteTaskClick(event) {
+    const taskDelete = event.target.classList.contains('task-delete');
+    const taskContainer = event.target.closest('.task-container');
+
+    if (taskDelete) {
+        const taskContainerID = parseInt(taskContainer.dataset.taskId);
+
+        const indexToRemove = tasks.findIndex(task => task.taskID === taskContainerID);
+
+        tasks.splice(indexToRemove, 1);
+        bodyContentContainer.removeChild(taskContainer);
+    }
 }
 
 //changes status + dom to complete
@@ -87,19 +117,4 @@ function isIncomplete(task, taskContainer, event, domTitle, domDescription) {
     event.target.classList.remove('completed-checked');
     domTitle.classList.remove('completed-task-text');
     domDescription.classList.remove('completed-task-text');
-}
-
-//toggles task between complete and incomplete
-function handleCompleteTaskClick(event) {
-    const clickedTask = findClickedTask(event);
-
-    if (clickedTask) {
-        const taskContainer = event.target.closest('.task-container');
-        const taskElementLeft = event.target.closest('.task-element-left');
-        const domTitle = taskElementLeft.querySelector('.task-title');
-        const domDescription = taskElementLeft.querySelector('.task-description');
-
-        if (clickedTask.status === 'incomplete') return isComplete(clickedTask, taskContainer, event, domTitle, domDescription);
-        if (clickedTask.status === 'complete') return isIncomplete(clickedTask, taskContainer, event, domTitle, domDescription);
-    }
 }

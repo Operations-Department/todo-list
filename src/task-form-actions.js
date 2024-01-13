@@ -52,7 +52,6 @@ export const formActionsObject = {
                 `;
             taskElementRight.innerHTML = `
                 <p class="task-due-date">${task.dueDate}</p>
-                <button class="task-edit">edit</button>
                 <button class="task-delete">delete</button>
                 `;
     
