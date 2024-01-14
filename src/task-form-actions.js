@@ -40,23 +40,55 @@ export const formActionsObject = {
         bodyContentContainer.appendChild(addTaskButton);
     
         tasks.forEach(task => {
+            //prevents duplicate entries
             taskContainer.innerHTML = '';
             
+            //each side of the task item
             const taskElementLeft = document.createElement('div');
             const taskElementRight = document.createElement('div');
-    
-            taskElementLeft.innerHTML = `
-                <button id="task-complete-button" class="task-complete-button"></button>
-                <h2 class="task-title">${task.title}</h2>
-                <p class="task-description">${task.description}</p>
-                `;
-            taskElementRight.innerHTML = `
-                <p class="task-due-date">${task.dueDate}</p>
-                <button class="task-delete">delete</button>
-                `;
-    
+
+            //taskElementLeft items - complete button, title and description
+            const taskCompleteButton = document.createElement('button');
+            taskCompleteButton.classList.add('task-complete-button');
+            taskCompleteButton.setAttribute('id', 'task-complete-button');
+
+            const taskTitle = document.createElement('h2');
+            taskTitle.classList.add('task-title');
+            taskTitle.textContent = `${task.title}`;
+
+            const taskDescription = document.createElement('p');
+            taskDescription.classList.add('task-description');
+            taskDescription.textContent = `${task.description}`;
+
+            //taskElementRight - due date, priority, delete button
+            const taskDueDate = document.createElement('p');
+            taskDueDate.classList.add('task-due-date');
+            if (task.dueDate == '') task.dueDate = 'no due date';
+            taskDueDate.textContent = `${task.dueDate}`;
+
+            const taskPriority = document.createElement('button');
+            taskPriority.classList.add('task-priority');
+            taskPriority.textContent = `${task.priority}`;
+
+            //update css based on priority value
+            formActionsObject.displayPriority(task, taskContainer, taskPriority);
+
+            const taskDelete = document.createElement('button');
+            taskDelete.classList.add('task-delete');
+            taskDelete.textContent = 'delete';
+
+            //append elements to page
+            taskElementLeft.appendChild(taskCompleteButton);
+            taskElementLeft.appendChild(taskTitle);
+            taskElementLeft.appendChild(taskDescription);    
+
+            taskElementRight.appendChild(taskDueDate);
+            taskElementRight.appendChild(taskPriority);
+            taskElementRight.appendChild(taskDelete);
+
             taskContainer.appendChild(taskElementLeft);
             taskContainer.appendChild(taskElementRight);
+
             taskContainer.setAttribute('data-task-id', task.taskID);
             taskContainer.classList.add('task-container');
             taskElementLeft.classList.add('task-element-left');
@@ -77,10 +109,39 @@ export const formActionsObject = {
         const title = document.getElementById('title').value;
         const description = document.getElementById('description').value;
         const dueDate = document.getElementById('date').value;
-        // const priority = document.getElementById('priority-selection').value;
+        const priority = document.getElementById('priority-selection').value;
 
-        const newTask = createTask(title, description, dueDate);
+        const newTask = createTask(title, description, dueDate, priority);
 
         return newTask;
+    },
+
+    //css to task container and priority button based on priority value
+    displayPriority(task, taskContainer, taskPriority) {
+
+        if (task.priority === 'low') {
+            taskContainer.classList.remove('task-container-mid-priority');
+            taskContainer.classList.remove('task-container-high-priority');
+            
+            taskPriority.classList.add('task-priority-low');
+            taskContainer.classList.add('task-container-low-priority');
+        }
+
+        if (task.priority === 'medium') {
+            taskContainer.classList.remove('task-container-low-priority');
+            taskContainer.classList.remove('task-container-high-priority');
+
+            taskPriority.classList.add('task-priority-mid');
+            taskContainer.classList.add('task-container-mid-priority');
+        }
+
+        if (task.priority === 'high') {
+            taskContainer.classList.remove('task-container-low-priority');
+            taskContainer.classList.remove('task-container-mid-priority');
+
+            taskPriority.classList.add('task-priority-high');
+            taskContainer.classList.add('task-container-high-priority');
+        }
     }
+
 }

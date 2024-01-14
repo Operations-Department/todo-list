@@ -41,7 +41,7 @@ function handleAddTaskClick(addTaskButton, formContainer) {
     taskFormObject.createFormTitle(formLeft);
     taskFormObject.createFormDescription(formLeft);
     taskFormObject.createFormDate(formRight);
-    // taskFormObject.createFormPrioritySelector(formRight);
+    taskFormObject.createFormPrioritySelector(formRight);
     const { submitButton, cancelButton } = taskFormObject.createFormButtons(formBottom);
 
     //attach event listeners to created submit/cancel buttons

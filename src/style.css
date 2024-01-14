@@ -20,6 +20,9 @@ html {
     --cancel-color: #a52f2f;
     --submit-color: #026e02cf;
     --background-image: url(./imgs/backdrop-2.jpg);
+    --low-priority: yellow;
+    --mid-priority: orange;
+    --high-priority: red;
 }
 
 @font-face {
@@ -223,7 +226,7 @@ li > button:hover {
     height: 100%;
     width: 100%;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 0.5rem;
 }
@@ -308,16 +311,12 @@ li > button:hover {
     height: auto;
     display: grid;
     grid-template-columns: 2fr 1fr;
-    border-left: 1px solid var(--border-color);
+    /* border-left: 1px solid var(--border-color); */
     gap: 0.5rem;
     align-self: center;
     background-color: #3b3361;
     overflow: hidden;
     /* white-space: nowrap; */
-}
-
-.task-container:hover {
-    box-shadow: 5px 10px 10px #00000063;
 }
 
 .task-element-left,
@@ -344,7 +343,7 @@ li > button:hover {
 .task-complete-button {
     height: 1.5rem;
     width: 1.5rem;
-    border: 2px solid var(--border-color);
+    border: 2px solid white;
     background: none;
     border-radius: var(--border-radius);
     flex-shrink: 0;
@@ -367,7 +366,7 @@ li > button:hover {
 }
 
 .task-complete-button:hover,
-.task-edit:hover,
+.task-priority:hover,
 .task-delete:hover {
     cursor: pointer;
 }
@@ -380,7 +379,46 @@ li > button:hover {
     font-size: 1rem;
 }
 
-.task-edit,
+/* priority emblem itself*/
+.task-priority {
+    border-radius: var(--border-radius);
+    padding: 5px 15px 5px 15px;
+    background: none;
+    color: var(--font-color)
+}
+
+.task-priority-low {
+    color: var(--low-priority);
+    border: 1px solid var(--low-priority);
+}
+
+.task-priority-mid {
+    color: var(--mid-priority);
+    border: 1px solid var(--mid-priority);
+}
+
+.task-priority-high {
+    color: var(--high-priority);
+    border: 1px solid   var(--high-priority);
+}
+
+/* task container (priority)*/
+.task-container-low-priority {
+    border-left: 2px solid var(--low-priority);
+}
+
+.task-container-mid-priority {
+    border-left: 2px solid var(--mid-priority);
+}
+
+.task-container-high-priority {
+    border-left: 2px solid var(--high-priority);
+}
+
+.task-container:hover {
+    box-shadow: 5px 10px 10px #00000063;
+}
+
 .task-delete {
     background: none;
     color: white;

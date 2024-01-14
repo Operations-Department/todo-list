@@ -3,11 +3,12 @@ export const tasks = [];
 let taskCounter = 0;
 
 //creates task objects
-export function createTask(title, description, dueDate) {
+export function createTask(title, description, dueDate, priority) {
     const task = {
         title: title,
         description: description,
         dueDate: dueDate,
+        priority: priority,
         status: 'incomplete',
         taskID: taskCounter,
     };
