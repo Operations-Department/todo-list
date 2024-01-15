@@ -133,6 +133,7 @@ bodyContentContainer.addEventListener('click', function(event) {
         //create element
         const editInputBox = document.createElement('input');
         editInputBox.classList.add('form-title');
+        
         const taskIDNumber = taskContainer.getAttribute('data-task-id');
 
         //add input to edit title
@@ -153,11 +154,8 @@ bodyContentContainer.addEventListener('click', function(event) {
                 //update dom display
                 taskTitle.textContent = editInputBox.value;
 
-                //re-appnend element
+                //re-append element
                 taskElementLeft.replaceChild(taskTitle, editInputBox);
-
-                console.log(task);
-                console.log(tasks);
             }
         });
     }

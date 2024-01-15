@@ -36,6 +36,11 @@ export const taskFormObject = {
         titleInput.setAttribute('name', 'title');
         titleInput.setAttribute('required', '');
 
+        //prevent page refresh
+        titleInput.addEventListener('keydown', function(event) { 
+            if (event.key === 'Enter') event.preventDefault();
+        });
+
         //append to left side
         formLeft.appendChild(titleLabel);
         formLeft.appendChild(titleInput);
