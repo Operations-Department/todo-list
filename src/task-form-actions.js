@@ -2,7 +2,7 @@ import { tasks, createTask, getTasks } from "./todo-factory";
 
 //object to store functions related to task creation / form submission
 export const formActionsObject = {
-
+    
     attachSubmitListener(submitButton, cancelButton, formContainer, addTaskButton) {
 
         submitButton.addEventListener('click', function(event) {
@@ -54,10 +54,12 @@ export const formActionsObject = {
 
             const taskTitle = document.createElement('h2');
             taskTitle.classList.add('task-title');
+            taskTitle.setAttribute('id', 'task-title');
             taskTitle.textContent = `${task.title}`;
 
             const taskDescription = document.createElement('p');
             taskDescription.classList.add('task-description');
+            taskDescription.setAttribute('id', 'task-description');
             taskDescription.textContent = `${task.description}`;
 
             //taskElementRight - due date, priority, delete button
@@ -119,26 +121,22 @@ export const formActionsObject = {
     //css to task container and priority button based on priority value
     displayPriority(task, taskContainer, taskPriority) {
 
+        //prevent stacking multiple classes
+        taskContainer.classList.remove('task-container-low-priority');
+        taskContainer.classList.remove('task-container-mid-priority');
+        taskContainer.classList.remove('task-container-high-priority');
+
         if (task.priority === 'low') {
-            taskContainer.classList.remove('task-container-mid-priority');
-            taskContainer.classList.remove('task-container-high-priority');
-            
             taskPriority.classList.add('task-priority-low');
             taskContainer.classList.add('task-container-low-priority');
         }
 
         if (task.priority === 'medium') {
-            taskContainer.classList.remove('task-container-low-priority');
-            taskContainer.classList.remove('task-container-high-priority');
-
             taskPriority.classList.add('task-priority-mid');
             taskContainer.classList.add('task-container-mid-priority');
         }
 
         if (task.priority === 'high') {
-            taskContainer.classList.remove('task-container-low-priority');
-            taskContainer.classList.remove('task-container-mid-priority');
-
             taskPriority.classList.add('task-priority-high');
             taskContainer.classList.add('task-container-high-priority');
         }

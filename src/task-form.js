@@ -39,6 +39,7 @@ export const taskFormObject = {
         //append to left side
         formLeft.appendChild(titleLabel);
         formLeft.appendChild(titleInput);
+        titleInput.focus();
         
         //add class
         titleInput.classList.add('form-title');

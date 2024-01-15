@@ -118,3 +118,47 @@ function isIncomplete(task, taskContainer, event, domTitle, domDescription) {
     domTitle.classList.remove('completed-task-text');
     domDescription.classList.remove('completed-task-text');
 }
+
+
+
+
+//edit task after creation
+bodyContentContainer.addEventListener('click', function(event) {
+
+    const taskContainer = event.target.closest('.task-container');
+    const taskElementLeft = event.target.closest('.task-element-left');
+    const taskTitle = event.target.closest('.task-title');
+    
+    if (taskTitle) {
+        //create element
+        const editInputBox = document.createElement('input');
+        editInputBox.classList.add('form-title');
+        const taskIDNumber = taskContainer.getAttribute('data-task-id');
+
+        //add input to edit title
+        taskElementLeft.replaceChild(editInputBox, taskTitle);
+        editInputBox.focus();
+
+        //take edited title and submit
+        editInputBox.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter' && editInputBox.value.trim() !== '') {
+                
+                //extract values
+                const tasks = getTasks();
+                const task = tasks.find(task => task.taskID == taskIDNumber);
+
+                //update task title
+                task.title = editInputBox.value;
+
+                //update dom display
+                taskTitle.textContent = editInputBox.value;
+
+                //re-appnend element
+                taskElementLeft.replaceChild(taskTitle, editInputBox);
+
+                console.log(task);
+                console.log(tasks);
+            }
+        });
+    }
+});

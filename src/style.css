@@ -22,7 +22,7 @@ html {
     --background-image: url(./imgs/backdrop-2.jpg);
     --low-priority: yellow;
     --mid-priority: orange;
-    --high-priority: red;
+    --high-priority: #ff4141;
 }
 
 @font-face {
@@ -308,6 +308,7 @@ li > button:hover {
     transition: ease-in-out 0.3s;
     box-sizing: border-box;
     width: 90%;
+    min-width: 37rem;
     height: auto;
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -387,6 +388,12 @@ li > button:hover {
     color: var(--font-color)
 }
 
+.task-priority-low,
+.task-priority-mid,
+.task-priority-high {
+    width: 5.5rem;
+}
+
 .task-priority-low {
     color: var(--low-priority);
     border: 1px solid var(--low-priority);
@@ -417,6 +424,10 @@ li > button:hover {
 
 .task-container:hover {
     box-shadow: 5px 10px 10px #00000063;
+}
+
+.task-due-date {
+    width: 5.5rem;
 }
 
 .task-delete {
