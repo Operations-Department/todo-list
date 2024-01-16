@@ -112,15 +112,15 @@ header {
     font-size: 2.5rem;
 }
 
-@keyframes sway {
+@keyframes bounce {
     0% {
-        transform: translateX(0px);
+        transform: translateY(10px);
     }
     50% {
-        transform: translateX(-20px);
+        transform: translateY(-10px);
     }
     100% {
-        transform: translateX(0px)
+        transform: translateY(10px);
     }
 }
 
@@ -149,7 +149,7 @@ li > button,
 }
 
 #body-content-container > button {
-    animation: pulse 8s infinite;
+    animation: bounce 8s infinite;
     align-self: center;
     box-sizing: border-box;
     padding: 0.7rem;
@@ -366,6 +366,9 @@ li > button:hover {
     background-size: cover;
 }
 
+.task-title:hover,
+.task-description:hover,
+.task-due-date:hover,
 .task-complete-button:hover,
 .task-priority:hover,
 .task-delete:hover {
