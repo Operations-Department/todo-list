@@ -24,3 +24,32 @@ export function createTask(title, description, dueDate, priority) {
 export function getTasks() {
     return tasks;
 }
+
+
+//local storage api
+
+//save tasks to local storage
+// function saveTasksToLocalStorage(tasks) {
+//     const tasksJSON = JSON.stringify(tasks);
+//     localStorage.setItem('tasks', tasksJSON);
+//   }
+  
+//   //retrieve tasks from local storage
+//   function getTasksFromLocalStorage() {
+//     const tasksJSON = localStorage.getItem('tasks');
+//     return JSON.parse(tasksJSON) || [];
+//   }
+  
+//   //example usage:
+//   const tasks = [
+//     { title: 'Task 1', description: 'Do something', dueDate: '2022-01-20', status: 'incomplete' },
+//     { title: 'Task 2', description: 'Do something else', dueDate: '2022-01-25', status: 'incomplete' }
+//   ];
+  
+//   //save tasks to local storage
+//   saveTasksToLocalStorage(tasks);
+  
+//   //retrieve tasks from local storage
+//   const retrievedTasks = getTasksFromLocalStorage();
+//   console.log(retrievedTasks);
+  
