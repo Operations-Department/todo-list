@@ -1,4 +1,5 @@
 import { tasks, createTask, getTasks } from "./todo-factory";
+import { pageElementsObject } from "./page-elements";
 
 //object to store functions related to task creation / form submission
 export const formActionsObject = {
@@ -34,14 +35,26 @@ export const formActionsObject = {
     updateTaskList(tasks) {
 
         const bodyContentContainer = document.getElementById('body-content-container');
-        const taskContainer = document.createElement('div');
         const addTaskButton = document.getElementById('add-task-button');
-        bodyContentContainer.appendChild(taskContainer);
-        bodyContentContainer.appendChild(addTaskButton);
-    
+        
+        //prevent duplicate tasks
+        bodyContentContainer.innerHTML = '';
+
+        //re-add title to page
+        const titleElement = pageElementsObject.createPageTitle();
+        bodyContentContainer.appendChild(titleElement);
+
+        // const taskContainer = document.createElement('div');
+        // bodyContentContainer.appendChild(taskContainer);
+        // bodyContentContainer.appendChild(addTaskButton);
+
         tasks.forEach(task => {
+
+            const taskContainer = document.createElement('div');
+            bodyContentContainer.appendChild(taskContainer);
+
             //prevents duplicate entries
-            taskContainer.innerHTML = '';
+            // taskContainer.innerHTML = '';
             
             //each side of the task item
             const taskElementLeft = document.createElement('div');
@@ -62,10 +75,14 @@ export const formActionsObject = {
             taskDescription.setAttribute('id', 'task-description');
             taskDescription.textContent = `${task.description}`;
 
+            if (taskDescription.textContent == '') {
+                taskDescription.textContent = '(details for thine quest not found)';
+            }
+
             //taskElementRight - due date, priority, delete button
             const taskDueDate = document.createElement('p');
             taskDueDate.classList.add('task-due-date');
-            if (task.dueDate == '') task.dueDate = 'no due date';
+            if (task.dueDate == '') task.dueDate = '(no due date)';
             taskDueDate.textContent = `${task.dueDate}`;
 
             const taskPriority = document.createElement('button');
@@ -96,6 +113,8 @@ export const formActionsObject = {
             taskElementLeft.classList.add('task-element-left');
             taskElementRight.classList.add('task-element-right');
         });    
+
+        bodyContentContainer.appendChild(addTaskButton);
     },
     
     removeForm(formContainer) {

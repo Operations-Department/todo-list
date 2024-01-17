@@ -383,6 +383,10 @@ li > button:hover {
     font-size: 1rem;
 }
 
+.task-due-date {
+    width: 6.1rem;
+}
+
 /* priority emblem itself*/
 .task-priority {
     border-radius: var(--border-radius);
@@ -429,13 +433,10 @@ li > button:hover {
     box-shadow: 5px 10px 10px #00000063;
 }
 
-.task-due-date {
-    width: 5.5rem;
-}
-
 .task-delete {
     background: none;
     color: white;
+    width: 3rem;
 }
 
 footer {

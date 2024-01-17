@@ -1,3 +1,5 @@
+import { localStorageObject } from "./local-storage";
+
 //task array to store all tasks
 export const tasks = [];
 let taskCounter = 0;
@@ -17,39 +19,16 @@ export function createTask(title, description, dueDate, priority) {
 
     tasks.push(task);
     console.log(tasks);
+
+    //save tasks to local storage after creating a new task
+    localStorageObject.saveTasksToLocalStorage(tasks);
+
     return task;
 }
 
 //send task array to be displayed
 export function getTasks() {
-    return tasks;
+
+    //retrieve tasks from local storage before returning
+    return localStorageObject.getTasksFromLocalStorage();
 }
-
-
-//local storage api
-
-//save tasks to local storage
-// function saveTasksToLocalStorage(tasks) {
-//     const tasksJSON = JSON.stringify(tasks);
-//     localStorage.setItem('tasks', tasksJSON);
-//   }
-  
-//   //retrieve tasks from local storage
-//   function getTasksFromLocalStorage() {
-//     const tasksJSON = localStorage.getItem('tasks');
-//     return JSON.parse(tasksJSON) || [];
-//   }
-  
-//   //example usage:
-//   const tasks = [
-//     { title: 'Task 1', description: 'Do something', dueDate: '2022-01-20', status: 'incomplete' },
-//     { title: 'Task 2', description: 'Do something else', dueDate: '2022-01-25', status: 'incomplete' }
-//   ];
-  
-//   //save tasks to local storage
-//   saveTasksToLocalStorage(tasks);
-  
-//   //retrieve tasks from local storage
-//   const retrievedTasks = getTasksFromLocalStorage();
-//   console.log(retrievedTasks);
-  
