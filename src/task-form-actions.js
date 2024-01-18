@@ -1,5 +1,6 @@
 import { tasks, createTask, getTasks } from "./todo-factory";
 import { pageElementsObject } from "./page-elements";
+import { editTasksObject } from "./editTasks";
 
 //object to store functions related to task creation / form submission
 export const formActionsObject = {
@@ -44,89 +45,111 @@ export const formActionsObject = {
         const titleElement = pageElementsObject.createPageTitle();
         bodyContentContainer.appendChild(titleElement);
 
-        // const taskContainer = document.createElement('div');
-        // bodyContentContainer.appendChild(taskContainer);
-        // bodyContentContainer.appendChild(addTaskButton);
+        //render tasks from array to dom
+        formActionsObject.renderTasks(tasks, bodyContentContainer);
 
+        //put add button to bottom of the list
+        bodyContentContainer.appendChild(addTaskButton);
+    },
+
+    renderTasks(tasks, bodyContentContainer) { 
+            
         tasks.forEach(task => {
 
-            const taskContainer = document.createElement('div');
-            bodyContentContainer.appendChild(taskContainer);
+        const taskContainer = document.createElement('div');
+        bodyContentContainer.appendChild(taskContainer);
 
-            //prevents duplicate entries
-            // taskContainer.innerHTML = '';
-            
-            //each side of the task item
-            const taskElementLeft = document.createElement('div');
-            const taskElementRight = document.createElement('div');
+        //prevents duplicate entries
+        // taskContainer.innerHTML = '';
+        
+        //each side of the task item
+        const taskElementLeft = document.createElement('div');
+        const taskElementRight = document.createElement('div');
 
-            //taskElementLeft items - complete button, title and description
-            const taskCompleteButton = document.createElement('button');
-            taskCompleteButton.classList.add('task-complete-button');
-            taskCompleteButton.setAttribute('id', 'task-complete-button');
+        //taskElementLeft items - complete button, title and description
+        const taskCompleteButton = document.createElement('button');
+        taskCompleteButton.classList.add('task-complete-button');
+        taskCompleteButton.setAttribute('id', 'task-complete-button');
 
-            const taskTitle = document.createElement('h2');
-            taskTitle.classList.add('task-title');
-            taskTitle.setAttribute('id', 'task-title');
-            taskTitle.textContent = `${task.title}`;
+        const taskTitle = document.createElement('h2');
+        taskTitle.classList.add('task-title');
+        taskTitle.setAttribute('id', 'task-title');
+        taskTitle.textContent = `${task.title}`;
 
-            const taskDescription = document.createElement('p');
-            taskDescription.classList.add('task-description');
-            taskDescription.setAttribute('id', 'task-description');
-            taskDescription.textContent = `${task.description}`;
+        const taskDescription = document.createElement('p');
+        taskDescription.classList.add('task-description');
+        taskDescription.setAttribute('id', 'task-description');
+        taskDescription.textContent = `${task.description}`;
 
-            if (taskDescription.textContent == '') {
-                taskDescription.textContent = '(details for thine quest not found)';
-            }
+        if (taskDescription.textContent == '') {
+            taskDescription.textContent = '(details for thine quest not found)';
+        }
 
-            //taskElementRight - due date, priority, delete button
-            const taskDueDate = document.createElement('p');
-            taskDueDate.classList.add('task-due-date');
-            if (task.dueDate == '') task.dueDate = '(no due date)';
-            taskDueDate.textContent = `${task.dueDate}`;
+        //taskElementRight - due date, priority, delete button
+        const taskDueDate = document.createElement('p');
+        taskDueDate.classList.add('task-due-date');
+        if (task.dueDate == '') task.dueDate = '(no due date)';
+        taskDueDate.textContent = `${task.dueDate}`;
 
-            const taskPriority = document.createElement('button');
-            taskPriority.classList.add('task-priority');
-            taskPriority.textContent = `${task.priority}`;
+        const taskPriority = document.createElement('button');
+        taskPriority.classList.add('task-priority');
+        taskPriority.textContent = `${task.priority}`;
 
-            //update css based on priority value
-            formActionsObject.displayPriority(task, taskContainer, taskPriority);
+        //update css based on priority value
+        formActionsObject.displayPriority(task, taskContainer, taskPriority);
 
-            const taskDelete = document.createElement('button');
-            taskDelete.classList.add('task-delete');
-            taskDelete.textContent = 'delete';
+        const taskDelete = document.createElement('button');
+        taskDelete.classList.add('task-delete');
+        taskDelete.textContent = 'delete';
 
-            //append elements to page
-            taskElementLeft.appendChild(taskCompleteButton);
-            taskElementLeft.appendChild(taskTitle);
-            taskElementLeft.appendChild(taskDescription);    
+        //append elements to page
+        taskElementLeft.appendChild(taskCompleteButton);
+        taskElementLeft.appendChild(taskTitle);
+        taskElementLeft.appendChild(taskDescription);    
 
-            taskElementRight.appendChild(taskDueDate);
-            taskElementRight.appendChild(taskPriority);
-            taskElementRight.appendChild(taskDelete);
+        taskElementRight.appendChild(taskDueDate);
+        taskElementRight.appendChild(taskPriority);
+        taskElementRight.appendChild(taskDelete);
 
-            taskContainer.appendChild(taskElementLeft);
-            taskContainer.appendChild(taskElementRight);
+        taskContainer.appendChild(taskElementLeft);
+        taskContainer.appendChild(taskElementRight);
 
-            taskContainer.setAttribute('data-task-id', task.taskID);
-            taskContainer.classList.add('task-container');
-            taskElementLeft.classList.add('task-element-left');
-            taskElementRight.classList.add('task-element-right');
+        taskContainer.setAttribute('data-task-id', task.taskID);
+        taskContainer.classList.add('task-container');
+        taskElementLeft.classList.add('task-element-left');
+        taskElementRight.classList.add('task-element-right');
+
+        //display task completion on page-load
+        if (task.status == 'complete') return formActionsObject.updateDisplayComplete(taskContainer, taskCompleteButton, taskTitle, taskDescription);
+        if (task.status == 'incomplete') return formActionsObject.updateDisplayIncomplete(taskContainer, taskCompleteButton, taskTitle, taskDescription);
         });    
+    },
 
-        bodyContentContainer.appendChild(addTaskButton);
+    //made bc editTasks functions were incompatible
+    updateDisplayComplete(taskContainer, taskCompleteButton, taskTitle, taskDescription) {
+        taskContainer.classList.add('completed-task');
+        taskCompleteButton.classList.add('completed-checked');
+        taskTitle.classList.add('completed-task-text');
+        taskDescription.classList.add('completed-task-text');
+    },
+
+    //made bc editTasks functions were incompatible
+    updateDisplayIncomplete(taskContainer, taskCompleteButton, taskTitle, taskDescription) {
+        taskContainer.classList.remove('completed-task');
+        taskCompleteButton.classList.remove('completed-checked');
+        taskTitle.classList.remove('completed-task-text');
+        taskDescription.classList.remove('completed-task-text');
     },
     
     removeForm(formContainer) {
-
         const bodyContentContainer = document.getElementById('body-content-container');
-        formContainer.removeChild(formContainer.firstChild);
-        bodyContentContainer.removeChild(formContainer);
+
+        if (formContainer.firstChild) formContainer.removeChild(formContainer.firstChild);
+        if (bodyContentContainer.contains(formContainer)) bodyContentContainer.removeChild(formContainer);
     },
 
     //called by submit button to put task onto page
     addTask() {
-
         const title = document.getElementById('title').value;
         const description = document.getElementById('description').value;
         const dueDate = document.getElementById('date').value;

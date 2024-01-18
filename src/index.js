@@ -1,6 +1,6 @@
 import './style.css';
 import { createAllQuestsPage } from './allTasks.js';
-import { tasks } from './todo-factory.js';
+import { tasks, taskCounterObject } from './todo-factory.js';
 import { formActionsObject } from './task-form-actions.js';
 import { localStorageObject } from './local-storage.js';
 
@@ -19,6 +19,12 @@ function allQuestsPage() {
 
     tasks.length = 0;
     tasks.push(...retrievedTasks);
+
+    //prevent counter from starting with wrong id number on page reload
+    if (tasks.length !== 0) {
+        let previousTaskId = tasks[tasks.length - 1].taskID;
+        taskCounterObject.taskCounter = previousTaskId + 1;
+    }
 
     formActionsObject.updateTaskList(tasks);
 }

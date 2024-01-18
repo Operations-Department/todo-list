@@ -1,5 +1,6 @@
 import { tasks, createTask, getTasks } from "./todo-factory";
 import { bodyContentContainer } from "./allTasks";
+import { localStorageObject } from "./local-storage";
 
 export const editTasksObject = {
 
@@ -19,7 +20,7 @@ export const editTasksObject = {
 
     //toggles task between complete and incomplete
     handleCompleteTask(event) {
-        const clickedTask = editTasksObject.findClickedTask(event);
+        const clickedTask = editTasksObject.findClickedTask(event); 
 
         if (clickedTask) {
             const taskContainer = event.target.closest('.task-container');
@@ -44,6 +45,9 @@ export const editTasksObject = {
 
             tasks.splice(indexToRemove, 1);
             bodyContentContainer.removeChild(taskContainer);
+
+            //update local storage
+            localStorageObject.saveTasksToLocalStorage(tasks);
         }
     },
 
@@ -58,6 +62,9 @@ export const editTasksObject = {
         event.target.classList.add('completed-checked');
         domTitle.classList.add('completed-task-text');
         domDescription.classList.add('completed-task-text');
+
+        //update local storage
+        localStorageObject.saveTasksToLocalStorage(tasks);
     },
 
     //changes status + dom to incomplete
@@ -71,6 +78,9 @@ export const editTasksObject = {
         event.target.classList.remove('completed-checked');
         domTitle.classList.remove('completed-task-text');
         domDescription.classList.remove('completed-task-text');
+
+        //update local storage
+        localStorageObject.saveTasksToLocalStorage(tasks);
     },
 
     //edit task after creation
@@ -113,6 +123,9 @@ export const editTasksObject = {
 
                     //re-append element
                     taskElementLeft.replaceChild(taskTitle, editInputBox);
+
+                    //update local storage
+                    localStorageObject.saveTasksToLocalStorage(tasks);
                 }
             });
         }
@@ -141,6 +154,9 @@ export const editTasksObject = {
 
                     //re-append element
                     taskElementLeft.replaceChild(taskDescription, editInputBox);
+
+                    //update local storage
+                    localStorageObject.saveTasksToLocalStorage(tasks);
                 }
             });
         }
@@ -169,6 +185,8 @@ export const editTasksObject = {
                 //re-append element
                 taskElementRight.replaceChild(taskDueDate, editInputBox);
         
+                //update local storage
+                localStorageObject.saveTasksToLocalStorage(tasks);
             });
         }
 
@@ -189,6 +207,9 @@ export const editTasksObject = {
                     taskContainer.classList.add('task-container-mid-priority');
                     task.priority = 'medium';
                     taskPriority.textContent = 'medium';
+
+                    //update local storage
+                    localStorageObject.saveTasksToLocalStorage(tasks);
                     break;
         
                 case taskPriority.classList.contains('task-priority-mid'):
@@ -198,6 +219,9 @@ export const editTasksObject = {
                     taskContainer.classList.add('task-container-high-priority');
                     task.priority = 'high';
                     taskPriority.textContent = 'high';
+
+                    //update local storage
+                    localStorageObject.saveTasksToLocalStorage(tasks);
                     break;
         
                 case taskPriority.classList.contains('task-priority-high'):
@@ -207,6 +231,9 @@ export const editTasksObject = {
                     taskContainer.classList.add('task-container-low-priority');
                     task.priority = 'low';
                     taskPriority.textContent = 'low';
+
+                    //update local storage
+                    localStorageObject.saveTasksToLocalStorage(tasks);
                     break;
             }
         }

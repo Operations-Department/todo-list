@@ -2,7 +2,11 @@ import { localStorageObject } from "./local-storage";
 
 //task array to store all tasks
 export const tasks = [];
-let taskCounter = 0;
+
+export const taskCounterObject = {
+    taskCounter: 0,
+}
+
 
 //creates task objects
 export function createTask(title, description, dueDate, priority) {
@@ -12,10 +16,10 @@ export function createTask(title, description, dueDate, priority) {
         dueDate: dueDate,
         priority: priority,
         status: 'incomplete',
-        taskID: taskCounter,
+        taskID: taskCounterObject.taskCounter,
     };
 
-    taskCounter++;
+    taskCounterObject.taskCounter++;
 
     tasks.push(task);
     console.log(tasks);
