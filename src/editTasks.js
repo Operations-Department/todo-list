@@ -88,6 +88,8 @@ export const editTasksObject = {
 
         //identify elements
         const taskContainer = event.target.closest('.task-container');
+        if(!taskContainer) return;
+        
         const taskElementLeft = event.target.closest('.task-element-left');
         const taskElementRight = event.target.closest('.task-element-right');
         const taskTitle = event.target.closest('.task-title');
@@ -95,13 +97,15 @@ export const editTasksObject = {
         const taskDueDate = event.target.closest('.task-due-date');
         const taskPriority = event.target.closest('.task-priority');
 
+        const taskIDNumber = taskContainer.dataset.taskId;
+
         //create element
         const editInputBox = document.createElement('input');
         editInputBox.classList.add('form-title');
 
         //edit the task title
         if (taskTitle) {        
-            const taskIDNumber = taskContainer.getAttribute('data-task-id');
+        // const taskIDNumber = taskContainer.getAttribute('data-task-id');
 
             //add input to edit title
             taskElementLeft.replaceChild(editInputBox, taskTitle);
@@ -132,7 +136,7 @@ export const editTasksObject = {
 
         //edit the task description
         if (taskDescription) {        
-            const taskIDNumber = taskContainer.getAttribute('data-task-id');
+            // const taskIDNumber = taskContainer.getAttribute('data-task-id');
 
             //add input to edit title
             taskElementLeft.replaceChild(editInputBox, taskDescription);
@@ -164,7 +168,7 @@ export const editTasksObject = {
         //edit the task due date
         if (taskDueDate) {        
             editInputBox.type = 'date';
-            const taskIDNumber = taskContainer.getAttribute('data-task-id');
+            // const taskIDNumber = taskContainer.getAttribute('data-task-id');
 
             //add input to edit title
             taskElementRight.replaceChild(editInputBox, taskDueDate);
@@ -194,7 +198,7 @@ export const editTasksObject = {
         if (taskPriority) {
 
             //extract values
-            const taskIDNumber = taskContainer.getAttribute('data-task-id');
+            // const taskIDNumber = taskContainer.getAttribute('data-task-id');
             const tasks = getTasks();
             const task = tasks.find(task => task.taskID == taskIDNumber);
 

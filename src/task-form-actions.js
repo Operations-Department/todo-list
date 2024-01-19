@@ -49,7 +49,7 @@ export const formActionsObject = {
         formActionsObject.renderTasks(tasks, bodyContentContainer);
 
         //put add button to bottom of the list
-        bodyContentContainer.appendChild(addTaskButton);
+        if(addTaskButton) bodyContentContainer.appendChild(addTaskButton);
     },
 
     renderTasks(tasks, bodyContentContainer) { 
