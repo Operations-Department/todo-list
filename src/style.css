@@ -85,7 +85,7 @@ header {
     white-space: nowrap;
 }
 
-.home-tasks {
+#home-tasks {
     position: sticky;
     top: 0;
 }
@@ -95,7 +95,7 @@ header {
     top: 17rem;
 }
 
-.home-tasks,
+#home-tasks,
 .project-tasks {
     display: flex;
     flex-direction: column;
@@ -437,6 +437,18 @@ li > button:hover {
     background: none;
     color: white;
     width: 3rem;
+}
+
+.no-task {
+    height: 15%;
+    width: 100%;
+    /* border: var(--border); */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    font-size: 3rem;
+    animation: bounce 6s infinite;
 }
 
 footer {

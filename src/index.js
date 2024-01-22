@@ -3,20 +3,35 @@ import { bodyContentContainer, createAllQuestsPage } from './allTasks.js';
 import { tasks, taskCounterObject } from './todo-factory.js';
 import { formActionsObject } from './task-form-actions.js';
 import { localStorageObject } from './local-storage.js';
-import { editTasksObject } from './editTasks.js';
+import { pageElementsObject } from './page-elements.js';
 
-const allQuests = document.getElementById('all-quests');
-const daysQuests = document.getElementById('days-quests');
-// const weeksQuests = document.getElementById('weeks-quests');
+document.addEventListener('DOMContentLoaded', function() {
 
-document.addEventListener('DOMContentLoaded', allQuestsPage);
-allQuests.addEventListener('click', allQuestsPage);
+    allQuestsPage();
+    
+    //initialize the event listeners, 
+    //only here to avoid prior bug of event listener stacking
+    createAllQuestsPage.init();
 
-daysQuests.addEventListener('click', daysQuestsPage);
+});
+
+const sideBarMenu = document.getElementById('home-tasks');
+
+sideBarMenu.addEventListener('click', function(event) {
+    if (event.target.classList.contains('all-quests')) {
+        allQuestsPage();
+    }
+    if (event.target.classList.contains('days-quests')) {
+        daysQuestsPage();
+    }
+});
 
 function allQuestsPage() {
+    //clear the page
+    bodyContentContainer.innerHTML = '';
+
     //import task creation tools
-    const { titleElement, addTaskButton } = createAllQuestsPage();
+    const { titleElement, addTaskButton } = createAllQuestsPage.elements;
 
     //append tools to page
     bodyContentContainer.appendChild(titleElement);
@@ -34,14 +49,19 @@ function allQuestsPage() {
     }
 
     formActionsObject.updateTaskList(tasks);
+    return tasks;
 }
 
-function daysQuestsPage() {
-    //import elements
-    const { titleElement } = createAllQuestsPage();
 
+
+
+
+function daysQuestsPage() {
     //clear the page
     bodyContentContainer.innerHTML = '';
+
+    //import elements
+    const titleElement = pageElementsObject.createPageTitle();
 
     //append tools to page
     bodyContentContainer.appendChild(titleElement);
@@ -53,14 +73,27 @@ function daysQuestsPage() {
     const today = getTodayDate();
 
     //filter today's tasks
-    let todaysTasks = tasks.filter((task => task.dueDate == today));
+    let todaysTasks = tasks.filter(task => task.dueDate == today);
 
-    //dipslay to dom
+    //display filtered array to dom
     formActionsObject.renderTasks(todaysTasks, bodyContentContainer);
+
+    const taskContainer = document.querySelector('.task-container');
+    if(!taskContainer) {
+        showNoTaskToday(bodyContentContainer);
+    }
+
+    return todaysTasks;
+}
+
+function showNoTaskToday(bodyContentContainer) {
+    const noTaskMessage = document.createElement('div');
+    noTaskMessage.classList.add('no-task');
+    noTaskMessage.textContent = 'No Quests Due Today';
+    bodyContentContainer.appendChild(noTaskMessage);
 }
 
 function getTodayDate() {
-
     const date = new Date();
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');

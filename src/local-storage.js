@@ -6,6 +6,7 @@ export const localStorageObject = {
     saveTasksToLocalStorage(tasks) {
         const tasksJSON = JSON.stringify(tasks);
         localStorage.setItem('tasks', tasksJSON);
+        console.log('item changed');
     },
 
     //retrieve tasks from local storage

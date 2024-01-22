@@ -5,31 +5,35 @@ import { localStorageObject } from "./local-storage";
 export const editTasksObject = {
 
     //matches id of task object and dom element
-    findClickedTask(event) {
+    // findClickedTask(event) {
+    //     const taskComplete = event.target.classList.contains('task-complete-button');
+
+    //     if (taskComplete) {
+    //         const taskContainer = event.target.closest('.task-container');
+    //         const taskContainerID = parseInt(taskContainer.dataset.taskId);
+
+    //         return tasks.find(task => task.taskID == taskContainerID);
+    //     }
+            
+    //     return null; //if no task found
+    // },
+
+    //toggles task between complete and incomplete
+    handleCompleteTask(event) {
         const taskComplete = event.target.classList.contains('task-complete-button');
+        // const clickedTask = editTasksObject.findClickedTask(event); 
 
         if (taskComplete) {
             const taskContainer = event.target.closest('.task-container');
             const taskContainerID = parseInt(taskContainer.dataset.taskId);
-
-            return tasks.find(task => task.taskID == taskContainerID);
-        }
-            
-        return null; //if no task found
-    },
-
-    //toggles task between complete and incomplete
-    handleCompleteTask(event) {
-        const clickedTask = editTasksObject.findClickedTask(event); 
-
-        if (clickedTask) {
-            const taskContainer = event.target.closest('.task-container');
             const taskElementLeft = event.target.closest('.task-element-left');
             const domTitle = taskElementLeft.querySelector('.task-title');
             const domDescription = taskElementLeft.querySelector('.task-description');
 
-            if (clickedTask.status === 'incomplete') return editTasksObject.isComplete(clickedTask, taskContainer, event, domTitle, domDescription);
-            if (clickedTask.status === 'complete') return editTasksObject.isIncomplete(clickedTask, taskContainer, event, domTitle, domDescription);
+            const foundTask = tasks.find(task => task.taskID == taskContainerID);
+
+            if (foundTask.status === 'incomplete') return editTasksObject.isComplete(foundTask, taskContainer, event, domTitle, domDescription);
+            if (foundTask.status === 'complete') return editTasksObject.isIncomplete(foundTask, taskContainer, event, domTitle, domDescription);
         }
     },
 
@@ -97,7 +101,7 @@ export const editTasksObject = {
         const taskDueDate = event.target.closest('.task-due-date');
         const taskPriority = event.target.closest('.task-priority');
 
-        const taskIDNumber = taskContainer.dataset.taskId;
+        const taskIDNumber = parseInt(taskContainer.dataset.taskId);
 
         //create element
         const editInputBox = document.createElement('input');
@@ -117,7 +121,7 @@ export const editTasksObject = {
                     
                     //extract values
                     const tasks = getTasks();
-                    const task = tasks.find(task => task.taskID == taskIDNumber);
+                    const task = tasks.find(task => task.taskID === taskIDNumber);
 
                     //update task title
                     task.title = editInputBox.value;
@@ -148,7 +152,7 @@ export const editTasksObject = {
                     
                     //extract values
                     const tasks = getTasks();
-                    const task = tasks.find(task => task.taskID == taskIDNumber);
+                    const task = tasks.find(task => task.taskID === taskIDNumber);
 
                     //update task title
                     task.description = editInputBox.value;
@@ -178,7 +182,7 @@ export const editTasksObject = {
                     
                 //extract values
                 const tasks = getTasks();
-                const task = tasks.find(task => task.taskID == taskIDNumber);
+                const task = tasks.find(task => task.taskID === taskIDNumber);
 
                 //update task title
                 task.dueDate = editInputBox.value;
@@ -200,7 +204,7 @@ export const editTasksObject = {
             //extract values
             // const taskIDNumber = taskContainer.getAttribute('data-task-id');
             const tasks = getTasks();
-            const task = tasks.find(task => task.taskID == taskIDNumber);
+            const task = tasks.find(task => task.taskID === taskIDNumber);
 
             //cycle between low-mid-high priority
             switch (true) {

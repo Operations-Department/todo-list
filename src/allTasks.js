@@ -7,33 +7,44 @@ import { editTasksObject } from "./editTasks";
 export const bodyContentContainer = document.getElementById('body-content-container');
 
 //main function to populate the page
-export function createAllQuestsPage() {
-    const titleElement = pageElementsObject.createPageTitle();
-    const addTaskButton = pageElementsObject.createAddTaskButton();
-    const formContainer = pageElementsObject.createFormContainer();
+export const createAllQuestsPage = {
+
+    titleElement: pageElementsObject.createPageTitle(),
+    addTaskButton: pageElementsObject.createAddTaskButton(),
+    formContainer: pageElementsObject.createFormContainer(),
 
     //click to add new task
-    addTaskButton.addEventListener('click', function() {
-        handleAddTask(addTaskButton, formContainer);
-    });
+    addTask() {
+        handleAddTask(createAllQuestsPage.addTaskButton, createAllQuestsPage.formContainer);
+    },
 
-    //click to toggle task completion
-    bodyContentContainer.addEventListener('click', function(event) {
+    //click to mark task complete
+    completeTask(event) {
         editTasksObject.handleCompleteTask(event);
-    });
-
+        // console.log('event triggered');
+    },
+    
     //click to delete task
-    bodyContentContainer.addEventListener('click', function(event) {
+    deleteTask(event) {
         editTasksObject.handleDeleteTask(event);
-    });
+    },
 
-    //click to edit tasks
-    bodyContentContainer.addEventListener('dblclick', function(event) {
-        editTasksObject.handleTaskEdit(event)
-    });
+    //double click to edit tasks
+    editTask(event) {
+        editTasksObject.handleTaskEdit(event);
+    },
 
-    return { titleElement, addTaskButton };
-}
+    init() {
+        this.addTaskButton.addEventListener('click', this.addTask);
+        bodyContentContainer.addEventListener('click', this.completeTask);
+        bodyContentContainer.addEventListener('click', this.deleteTask);
+        bodyContentContainer.addEventListener('dblclick', this.editTask);
+    },
+
+    get elements() {
+        return { titleElement: this.titleElement, addTaskButton: this.addTaskButton };
+    },
+};
 
 //creates the task creation form
 function handleAddTask(addTaskButton, formContainer) {
