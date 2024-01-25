@@ -1,6 +1,9 @@
+import './style.css';
 import { tasks, createTask, getTasks } from "./todo-factory";
 import { bodyContentContainer } from "./allTasks";
 import { localStorageObject } from "./local-storage";
+import { formActionsObject } from "./task-form-actions";
+import { sortTasksByDate } from ".";
 
 export const editTasksObject = {
 
@@ -143,7 +146,7 @@ export const editTasksObject = {
     //handles new edited description submission
     submitDueDate(event, taskDueDate, editInputBox) {
 
-        const { taskElementRight, task } = editTasksObject.retrieveTaskElements(event);
+        const { taskElementRight, task, taskContainer } = editTasksObject.retrieveTaskElements(event);
         
         //remove input box and restore original element
         taskElementRight.replaceChild(taskDueDate, editInputBox);
@@ -153,6 +156,10 @@ export const editTasksObject = {
 
         //update DOM display
         taskDueDate.textContent = task.dueDate;
+
+        //auto sort list by due date
+        const sortedTasks = sortTasksByDate([...tasks]);
+        formActionsObject.updateTaskList(sortedTasks);
     
         //update local storage
         localStorageObject.saveTasksToLocalStorage(tasks);
@@ -250,6 +257,14 @@ export const editTasksObject = {
             editInputBox.focus();
             editInputBox.addEventListener('change', (event) => {
                 editTasksObject.submitDueDate(event, taskDueDate, editInputBox);
+
+                //show new location in the task list after sort
+                //not working
+                if (taskContainer) taskContainer.classList.add('task-glow');
+               
+                setTimeout(() => {
+                    taskContainer.classList.remove('task-glow');
+                }, 5000);
             });
         }
 

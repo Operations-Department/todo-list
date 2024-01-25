@@ -1,6 +1,7 @@
 import { tasks, createTask, getTasks } from "./todo-factory";
 import { pageElementsObject } from "./page-elements";
 import { localStorageObject } from "./local-storage";
+import { sortTasksByDate } from ".";
 
 //object to store functions related to task creation / form submission
 export const formActionsObject = {
@@ -26,6 +27,10 @@ export const formActionsObject = {
             formActionsObject.updateTaskList(tasks);
             addTaskButton.disabled = false;
             formActionsObject.removeForm(formContainer);
+
+            //auto sort into list after creation
+            const sortedTasks = sortTasksByDate([...tasks]);
+            formActionsObject.updateTaskList(sortedTasks);
         });
     },
 

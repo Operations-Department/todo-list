@@ -1,4 +1,3 @@
-import { tasks, createTask, getTasks } from "./todo-factory";
 import { pageElementsObject } from "./page-elements";
 import { taskFormObject } from "./task-form";
 import { formActionsObject } from "./task-form-actions";

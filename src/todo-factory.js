@@ -21,7 +21,7 @@ export function createTask(title, description, dueDate, priority) {
     taskCounterObject.taskCounter++;
 
     tasks.push(task);
-    console.log(tasks);
+    // console.log(tasks);
 
     //save tasks to local storage after creating a new task
     localStorageObject.saveTasksToLocalStorage(tasks);
