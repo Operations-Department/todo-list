@@ -103,15 +103,16 @@ export const editTasksObject = {
             task
         };
     },
-        
-    submitEdit(event, taskTitle, editInputBox) {
+    
+    //handles new edited title submission
+    submitTitle(event, taskTitle, editInputBox) {
 
         const { taskElementLeft, task } = editTasksObject.retrieveTaskElements(event);
         
         //remove input box and restore original element
         taskElementLeft.replaceChild(taskTitle, editInputBox);
 
-        //update task title
+        //update task object title
         task.title = editInputBox.value;
 
         //update DOM display
@@ -120,17 +121,103 @@ export const editTasksObject = {
         //update local storage
         localStorageObject.saveTasksToLocalStorage(tasks);
     },
+
+    //handles new edited description submission
+    submitDescription(event, taskDescription, editInputBox) {
+
+        const { taskElementLeft, task } = editTasksObject.retrieveTaskElements(event);
+        
+        //remove input box and restore original element
+        taskElementLeft.replaceChild(taskDescription, editInputBox);
+
+        //update task object description
+        task.description = editInputBox.value;
+
+        //update DOM display
+        taskDescription.textContent = task.description;
+    
+        //update local storage
+        localStorageObject.saveTasksToLocalStorage(tasks);
+    },
+
+    //handles new edited description submission
+    submitDueDate(event, taskDueDate, editInputBox) {
+
+        const { taskElementRight, task } = editTasksObject.retrieveTaskElements(event);
+        
+        //remove input box and restore original element
+        taskElementRight.replaceChild(taskDueDate, editInputBox);
+
+        //update task object description
+        task.dueDate = editInputBox.value;
+
+        //update DOM display
+        taskDueDate.textContent = task.dueDate;
+    
+        //update local storage
+        localStorageObject.saveTasksToLocalStorage(tasks);
+    },
+
+    //cycle between low-mid-high priority
+    changePriority(task, event, taskPriority, taskContainer) {
+        switch (true) {
+            case taskPriority.classList.contains('task-priority-low'):
+
+                taskPriority.classList.remove('task-priority-low');
+                taskContainer.classList.remove('task-container-low-priority');
+                taskPriority.classList.add('task-priority-mid');
+                taskContainer.classList.add('task-container-mid-priority');
+                task.priority = 'medium';
+                taskPriority.textContent = 'medium';
+
+                //update local storage
+                localStorageObject.saveTasksToLocalStorage(tasks);
+                break;
+    
+            case taskPriority.classList.contains('task-priority-mid'):
+
+                taskPriority.classList.remove('task-priority-mid');
+                taskContainer.classList.remove('task-container-mid-priority');
+                taskPriority.classList.add('task-priority-high');
+                taskContainer.classList.add('task-container-high-priority');
+                task.priority = 'high';
+                taskPriority.textContent = 'high';
+
+                //update local storage
+                localStorageObject.saveTasksToLocalStorage(tasks);
+                break;
+    
+            case taskPriority.classList.contains('task-priority-high'):
+
+                taskPriority.classList.remove('task-priority-high');
+                taskContainer.classList.remove('task-container-high-priority');
+                taskPriority.classList.add('task-priority-low');
+                taskContainer.classList.add('task-container-low-priority');
+                task.priority = 'low';
+                taskPriority.textContent = 'low';
+
+                //update local storage
+                localStorageObject.saveTasksToLocalStorage(tasks);
+                break;
+        }
+    },
       
     handleTaskEdit(event) {
         const { 
             taskElementLeft, 
             editInputBox, 
             taskContainer, 
-            taskTitle 
+            taskTitle,
+            taskDescription,
+            taskElementRight,
+            taskDueDate,
+            taskPriority,
+            task
         } = editTasksObject.retrieveTaskElements(event);
 
-        if (!taskContainer || !taskElementLeft) return;
+        if (!taskContainer || !taskElementLeft || !taskElementRight) return null;
       
+        //edit task title
         if (event.target.classList.contains('task-title')) {
             taskElementLeft.replaceChild(editInputBox, taskTitle);
             editInputBox.focus();
@@ -138,131 +225,37 @@ export const editTasksObject = {
                 if (event.key === 'Enter' && editInputBox.value.trim() !== '') {
                     event.preventDefault();
                     event.stopPropagation();    
-                    editTasksObject.submitEdit(event, taskTitle, editInputBox);
+                    editTasksObject.submitTitle(event, taskTitle, editInputBox);
                 }
             });
         }
+
+        //edit task description
+        if (event.target.classList.contains('task-description')) {
+            taskElementLeft.replaceChild(editInputBox, taskDescription);
+            editInputBox.focus();
+            editInputBox.addEventListener('keyup', (event) => {
+                if (event.key === 'Enter' && editInputBox.value.trim() !== '') {
+                    event.preventDefault();
+                    event.stopPropagation();    
+                    editTasksObject.submitDescription(event, taskDescription, editInputBox);
+                }
+            });
+        }
+
+        //edit task due date
+        if (event.target.classList.contains('task-due-date')) {
+            editInputBox.type = 'date';
+            taskElementRight.replaceChild(editInputBox, taskDueDate);
+            editInputBox.focus();
+            editInputBox.addEventListener('change', (event) => {
+                editTasksObject.submitDueDate(event, taskDueDate, editInputBox);
+            });
+        }
+
+        //edit task priority
+        if (event.target.classList.contains('task-priority')) {
+            editTasksObject.changePriority(task, event, taskPriority, taskContainer);
+        }
     },
 };
-      
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-//         else if (taskDescription) {        
-
-//             //add input to edit title
-//             taskElementLeft.replaceChild(editInputBox, taskDescription);
-//             editInputBox.focus();
-
-//             //take edited title and submit
-//             editInputBox.addEventListener('keyup', function(event) {
-//                 if (event.key === 'Enter' && editInputBox.value.trim() !== '') {
-
-//                     //extract values
-//                     const tasks = getTasks();
-
-//                     const task = tasks.find(task => task.taskID === taskIDNumber);
-
-//                     //update task title 
-//                     task.description = editInputBox.value;
-
-//                     //update dom display
-//                     taskDescription.textContent = editInputBox.value;
-
-//                     //re-append element
-//                     taskElementLeft.replaceChild(taskDescription, editInputBox);
-
-//                     //update local storage
-//                     localStorageObject.saveTasksToLocalStorage(tasks);
-//                 }
-//             });
-//         } 
-        
-        
-        
-        
-//         else if (taskDueDate) {        
-//             editInputBox.type = 'date';
-
-//             //add input to edit title
-//             taskElementRight.replaceChild(editInputBox, taskDueDate);
-
-//             //take edited title and submit
-//             editInputBox.addEventListener('change', function(event) {
-                    
-//                 //extract values
-//                 const tasks = getTasks();
-//                 const task = tasks.find(task => task.taskID === taskIDNumber);
-
-//                 //update task title
-//                 task.dueDate = editInputBox.value;
-
-//                 //update dom display
-//                 taskDueDate.innerText = editInputBox.value;
-
-//                 //re-append element
-//                 taskElementRight.replaceChild(taskDueDate, editInputBox);
-        
-//                 //update local storage
-//                 localStorageObject.saveTasksToLocalStorage(tasks);
-//             });
-//         }
-
-//         //edit priority button
-//         else if (taskPriority) {
-
-//             //extract values
-//             const tasks = getTasks();
-//             const task = tasks.find(task => task.taskID === taskIDNumber);
-
-//             //cycle between low-mid-high priority
-//             switch (true) {
-//                 case taskPriority.classList.contains('task-priority-low'):
-
-//                     taskPriority.classList.remove('task-priority-low');
-//                     taskContainer.classList.remove('task-container-low-priority');
-//                     taskPriority.classList.add('task-priority-mid');
-//                     taskContainer.classList.add('task-container-mid-priority');
-//                     task.priority = 'medium';
-//                     taskPriority.textContent = 'medium';
-
-//                     //update local storage
-//                     localStorageObject.saveTasksToLocalStorage(tasks);
-//                     break;
-        
-//                 case taskPriority.classList.contains('task-priority-mid'):
-
-//                     taskPriority.classList.remove('task-priority-mid');
-//                     taskContainer.classList.remove('task-container-mid-priority');
-//                     taskPriority.classList.add('task-priority-high');
-//                     taskContainer.classList.add('task-container-high-priority');
-//                     task.priority = 'high';
-//                     taskPriority.textContent = 'high';
-
-//                     //update local storage
-//                     localStorageObject.saveTasksToLocalStorage(tasks);
-//                     break;
-        
-//                 case taskPriority.classList.contains('task-priority-high'):
-
-//                     taskPriority.classList.remove('task-priority-high');
-//                     taskContainer.classList.remove('task-container-high-priority');
-//                     taskPriority.classList.add('task-priority-low');
-//                     taskContainer.classList.add('task-container-low-priority');
-//                     task.priority = 'low';
-//                     taskPriority.textContent = 'low';
-
-//                     //update local storage
-//                     localStorageObject.saveTasksToLocalStorage(tasks);
-//                     break;
-//             }
-//         }
-//     }
-// };
