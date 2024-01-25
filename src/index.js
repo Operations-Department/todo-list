@@ -3,7 +3,8 @@ import { bodyContentContainer, createAllQuestsPage } from './allTasks.js';
 import { tasks, taskCounterObject } from './todo-factory.js';
 import { formActionsObject } from './task-form-actions.js';
 import { localStorageObject } from './local-storage.js';
-import { pageElementsObject } from './page-elements.js';
+import { daysQuestObject } from './today.js';
+import { weeksQuestObject } from './thisWeek.js';
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -21,7 +22,10 @@ sideBarMenu.addEventListener('click', function(event) {
         allQuestsPage();
     }
     if (event.target.classList.contains('days-quests')) {
-        daysQuestsPage();
+        daysQuestObject.daysQuestPage();
+    }
+    if (event.target.classList.contains('weeks-quests')) {
+        weeksQuestObject.weeksQuestPage();
     }
 });
 
@@ -49,50 +53,4 @@ function allQuestsPage() {
 
     formActionsObject.updateTaskList(tasks);
     return tasks;
-}
-
-function daysQuestsPage() {
-    //clear the page
-    bodyContentContainer.innerHTML = '';
-
-    //import elements
-    const titleElement = pageElementsObject.createPageTitle();
-
-    //append tools to page
-    bodyContentContainer.appendChild(titleElement);
-
-    //update page title
-    titleElement.textContent = `Day's Quests`;
-    
-    //get today's date
-    const today = getTodayDate();
-
-    //filter today's tasks
-    let todaysTasks = tasks.filter(task => task.dueDate == today);
-
-    //display filtered array to dom
-    formActionsObject.renderTasks(todaysTasks, bodyContentContainer);
-
-    const taskContainer = document.querySelector('.task-container');
-    if(!taskContainer) {
-        showNoTaskToday(bodyContentContainer);
-    }
-
-    return todaysTasks;
-}
-
-function showNoTaskToday(bodyContentContainer) {
-    const noTaskMessage = document.createElement('div');
-    noTaskMessage.classList.add('no-task');
-    noTaskMessage.textContent = 'No Quests Due Today';
-    bodyContentContainer.appendChild(noTaskMessage);
-}
-
-function getTodayDate() {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    
-    return `${year}-${month}-${day}`;
 }
