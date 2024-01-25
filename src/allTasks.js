@@ -21,7 +21,6 @@ export const createAllQuestsPage = {
     //click to mark task complete
     completeTask(event) {
         editTasksObject.handleCompleteTask(event);
-        // console.log('event triggered');
     },
     
     //click to delete task
@@ -34,6 +33,7 @@ export const createAllQuestsPage = {
         editTasksObject.handleTaskEdit(event);
     },
 
+    //attach event listeners
     init() {
         this.addTaskButton.addEventListener('click', this.addTask);
         bodyContentContainer.addEventListener('click', this.completeTask);

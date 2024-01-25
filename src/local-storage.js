@@ -1,12 +1,9 @@
-import { tasks } from "./todo-factory";
-
 export const localStorageObject = {
 
     //save tasks to local storage
     saveTasksToLocalStorage(tasks) {
         const tasksJSON = JSON.stringify(tasks);
         localStorage.setItem('tasks', tasksJSON);
-        console.log('item changed');
     },
 
     //retrieve tasks from local storage
@@ -18,5 +15,5 @@ export const localStorageObject = {
             console.error('Error retrieving tasks from local storage:', error);
             return [];
         }
-    }
+    },
 }

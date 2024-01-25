@@ -9,8 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     allQuestsPage();
     
-    //initialize the event listeners, 
-    //only here to avoid prior bug of event listener stacking
+    //initialize the event listeners
     createAllQuestsPage.init();
 
 });
@@ -30,7 +29,7 @@ function allQuestsPage() {
     //clear the page
     bodyContentContainer.innerHTML = '';
 
-    //import task creation tools
+    //import task page elements
     const { titleElement, addTaskButton } = createAllQuestsPage.elements;
 
     //append tools to page
@@ -51,10 +50,6 @@ function allQuestsPage() {
     formActionsObject.updateTaskList(tasks);
     return tasks;
 }
-
-
-
-
 
 function daysQuestsPage() {
     //clear the page

@@ -1,6 +1,6 @@
 import { tasks, createTask, getTasks } from "./todo-factory";
 import { pageElementsObject } from "./page-elements";
-import { editTasksObject } from "./editTasks";
+import { localStorageObject } from "./local-storage";
 
 //object to store functions related to task creation / form submission
 export const formActionsObject = {
@@ -17,7 +17,11 @@ export const formActionsObject = {
                 return;
             }
 
+            // console.log(localStorage.getItem('tasks'));
+            // bug in here???
             formActionsObject.addTask();
+            // console.log(localStorage.getItem('tasks'));
+
             const tasks = getTasks();
             formActionsObject.updateTaskList(tasks);
             addTaskButton.disabled = false;
@@ -52,15 +56,13 @@ export const formActionsObject = {
         if(addTaskButton) bodyContentContainer.appendChild(addTaskButton);
     },
 
+    //iterates though the tasks array to display to the dom
     renderTasks(tasks, bodyContentContainer) { 
-            
+
         tasks.forEach(task => {
 
         const taskContainer = document.createElement('div');
         bodyContentContainer.appendChild(taskContainer);
-
-        //prevents duplicate entries
-        // taskContainer.innerHTML = '';
         
         //each side of the task item
         const taskElementLeft = document.createElement('div');
@@ -82,7 +84,7 @@ export const formActionsObject = {
         taskDescription.textContent = `${task.description}`;
 
         if (taskDescription.textContent == '') {
-            taskDescription.textContent = '(details for thine quest not found)';
+            taskDescription.textContent = '(empty)';
         }
 
         //taskElementRight - due date, priority, delete button
@@ -155,7 +157,10 @@ export const formActionsObject = {
         const dueDate = document.getElementById('date').value;
         const priority = document.getElementById('priority-selection').value;
 
+        
         const newTask = createTask(title, description, dueDate, priority);
+    
+        localStorageObject.saveTasksToLocalStorage(tasks);
 
         return newTask;
     },

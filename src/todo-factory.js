@@ -7,7 +7,6 @@ export const taskCounterObject = {
     taskCounter: 0,
 }
 
-
 //creates task objects
 export function createTask(title, description, dueDate, priority) {
     const task = {
