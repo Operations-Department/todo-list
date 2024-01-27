@@ -258,13 +258,12 @@ export const editTasksObject = {
             editInputBox.addEventListener('change', (event) => {
                 editTasksObject.submitDueDate(event, taskDueDate, editInputBox);
 
-                //show new location in the task list after sort
-                //not working
-                if (taskContainer) taskContainer.classList.add('task-glow');
+                //show new location in the task list after sort ** doesn't work
+                // if (taskContainer) taskContainer.classList.add('task-glow');
                
-                setTimeout(() => {
-                    taskContainer.classList.remove('task-glow');
-                }, 5000);
+                // setTimeout(() => {
+                //     taskContainer.classList.remove('task-glow');
+                // }, 5000);
             });
         }
 
