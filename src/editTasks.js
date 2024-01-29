@@ -9,6 +9,7 @@ export const editTasksObject = {
 
     //toggles task between complete and incomplete
     handleCompleteTask(event) {
+        event.stopPropagation();
         const taskComplete = event.target.classList.contains('task-complete-button');
 
         if (taskComplete) { //can get these from getElements()
@@ -27,6 +28,7 @@ export const editTasksObject = {
 
     //deletes object in task array and removes dom display element
     handleDeleteTask(event) {
+        event.stopPropagation();
         const taskDelete = event.target.classList.contains('task-delete');
         const taskContainer = event.target.closest('.task-container');
 

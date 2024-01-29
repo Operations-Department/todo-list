@@ -36,7 +36,7 @@ export const createAllQuestsPage = {
     init() {
         this.addTaskButton.addEventListener('click', this.addTask);
         bodyContentContainer.addEventListener('click', this.completeTask);
-        bodyContentContainer.addEventListener('click', this.deleteTask);
+        bodyContentContainer.addEventListener('dblclick', this.deleteTask);
         bodyContentContainer.addEventListener('dblclick', this.editTask);
     },
 
