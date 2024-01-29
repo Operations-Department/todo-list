@@ -125,17 +125,19 @@ header {
 }
 
 .project-delete {
+    background-image: url(./imgs/cross-button.png);
+    background-size: cover;
+    background-color: transparent;
+    border: none;
     transition: ease-in-out 0.3s;
     cursor: pointer;
     border-radius: var(--border-radius);
-    width: 2rem;
-    height: 2rem;
-}
-
-.project-delete:hover {
-    /* border: 1px solid white; */
-    background: white;
-    color: black;
+    width: 30px;
+    height: 30px;
+    margin-left: 25px;
+    box-sizing: border-box;
+    padding: 0;
+    filter: invert(1);
 }
 
 #home-tasks,
@@ -195,8 +197,7 @@ li > button,
 #body-content-container > button,
 #submit-button,
 #cancel-button,
-.new-project,
-.project-delete {
+.new-project {
     color: var(--font-color);
     transition: ease-in-out 0.3s;
     font-size: 1.5rem;
@@ -264,7 +265,7 @@ li > button:hover {
 .form-container{
     height: 12rem;
     width: 90%;
-    background: url(./imgs/backdrop-2.jpg);
+    background-image: url(./imgs/backdrop-2.jpg);
     background-size: 100% 100%;
     background-attachment: fixed;
     box-sizing: border-box;
@@ -505,9 +506,14 @@ li > button:hover {
 }
 
 .task-delete {
-    background: none;
+    background-image: url(./imgs/trash-bin.png);
+    background-size: cover;
+    background-color: transparent;
     color: white;
-    width: 3rem;
+    width: 1.2rem;
+    height: 1.3rem;
+    filter: invert(1);
+    margin-right: 1rem;
 }
 
 .no-task {

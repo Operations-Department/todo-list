@@ -107,7 +107,7 @@ export const formActionsObject = {
 
         const taskDelete = document.createElement('button');
         taskDelete.classList.add('task-delete');
-        taskDelete.textContent = 'delete';
+        // taskDelete.textContent = 'delete';
 
         //append elements to page
         taskElementLeft.appendChild(taskCompleteButton);

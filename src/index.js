@@ -20,7 +20,6 @@ const sideBarMenuItems = {
     },
 };
 
-
 document.addEventListener('DOMContentLoaded', function() {
     //load all tasks page first
     allQuestsPage();
@@ -32,7 +31,8 @@ document.addEventListener('DOMContentLoaded', function() {
     createAllQuestsPage.init();
 });
 
-sideBarMenuItems.sideBarMenu.addEventListener('click', function(event) {
+sideBarMenuItems.sideBarMenu.addEventListener('click', (event) => {
+    event.stopPropagation();
     if (event.target.classList.contains('all-quests')) {
         allQuestsPage();
 
@@ -114,11 +114,8 @@ export function sortTasksByDate(tasks) {
 
 
 sideBarMenuItems.projectTasks.addEventListener('click', (event) => {
-
+    event.stopPropagation();
     if (event.target.classList.contains('add-questline')) {
-
-        event.stopPropagation();
-
         //to only add one project at a time
         sideBarMenuItems.addQuestlineTab.disabled = true;
 
@@ -132,8 +129,10 @@ sideBarMenuItems.projectTasks.addEventListener('click', (event) => {
 
                 const projectTitle = editInputBox.value;
 
+                //push to projects array
                 projects.push(projectTitle);
 
+                //creates project dom element
                 createNewProject(editInputBox, projectTitle);
 
                 //re-establish add button
@@ -145,7 +144,36 @@ sideBarMenuItems.projectTasks.addEventListener('click', (event) => {
     }
 });
 
-//new project creation
+//delete project on double click
+sideBarMenuItems.projectTasks.addEventListener('dblclick', (event) => {
+    event.stopPropagation();
+    if (event.target.classList.contains('project-delete')) {
+        deleteProject(event);
+    }
+}); 
+
+//click created project - populate screen with project's tasks
+sideBarMenuItems.projectTasks.addEventListener('click', (event) => {
+    event.stopPropagation();
+    if (event.target.classList.contains('new-project')) {
+
+        const projectTitle = event.target.textContent;
+
+        //clear the page
+        bodyContentContainer.innerHTML = '';
+
+        //import task page elements
+        const { titleElement, addTaskButton } = createAllQuestsPage.elements;
+
+        //append tools to page
+        bodyContentContainer.appendChild(titleElement);
+        bodyContentContainer.appendChild(addTaskButton);
+
+        titleElement.textContent = `${projectTitle}`;
+    }
+});
+
+//new project creation to dom
 function createNewProject(editInputBox, projectTitle) {
 
     const newProject = document.createElement('button');
@@ -160,7 +188,6 @@ function createNewProject(editInputBox, projectTitle) {
 
     const deleteProjectButton = document.createElement('button');
     deleteProjectButton.classList.add('project-delete');
-    deleteProjectButton.textContent = 'x';
 
     newProject.appendChild(deleteProjectButton);
     
@@ -192,7 +219,6 @@ function renderProjectsList(projects) {
     
         const deleteProjectButton = document.createElement('button');
         deleteProjectButton.classList.add('project-delete');
-        deleteProjectButton.textContent = 'x';
     
         projectsList.appendChild(newProject);
         newProject.appendChild(deleteProjectButton);
@@ -201,16 +227,15 @@ function renderProjectsList(projects) {
     projectsList.appendChild(sideBarMenuItems.addQuestlineTab);
 }
 
+//removes project from object and dom element
 function deleteProject(event) {
     const projectTasksList = document.querySelector('.project-tasks-list');
     const projectToDelete = event.target.closest('.new-project');
-    //title + 'x' for delete button, update later -- if replaced by icon
     const projectToDeleteText = projectToDelete.textContent; 
     // const projectID = projectToDelete.dataset.projectId;
 
     for (let i = 0; i < projects.length; i++) {
-        //need 'x' - dom element.textContent contains letter x for delete button
-        if (`${projects[i]}x` == projectToDeleteText) {
+        if (projects[i] == projectToDeleteText) {
             projects.splice(i, 1);
             break;
         }
@@ -218,11 +243,3 @@ function deleteProject(event) {
     projectTasksList.removeChild(projectToDelete);
     localStorageObject.saveProjectsToLocalStorage(projects);
 }
-
-//delete project on double click
-sideBarMenuItems.projectTasks.addEventListener('dblclick', (event) => {
-    if (event.target.classList.contains('project-delete')) {
-        event.stopPropagation();
-        deleteProject(event);
-    }
-}); 
