@@ -3,8 +3,14 @@ import { localStorageObject } from "./local-storage";
 //task array to store all tasks
 export const tasks = [];
 
+export const projects = [];
+
 export const taskCounterObject = {
     taskCounter: 0,
+}
+
+export const projectCounterObject = {
+    projectID: 0,
 }
 
 //creates task objects
@@ -16,6 +22,7 @@ export function createTask(title, description, dueDate, priority) {
         priority: priority,
         status: 'incomplete',
         taskID: taskCounterObject.taskCounter,
+        projectName: '',
     };
 
     taskCounterObject.taskCounter++;
@@ -34,4 +41,9 @@ export function getTasks() {
 
     //retrieve tasks from local storage before returning
     return localStorageObject.getTasksFromLocalStorage();
+}
+
+export function getProjects() {
+
+    return localStorageObject.getProjectsFromLocalStorage();
 }

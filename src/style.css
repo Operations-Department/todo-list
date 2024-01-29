@@ -22,8 +22,11 @@ html {
     --submit-color: #026e02cf;
     --background-image: url(./imgs/backdrop-2.jpg);
     --low-priority: yellow;
+    --low-background: #ffff0014;
     --mid-priority: orange;
+    --mid-background: #ffa5001c;
     --high-priority: #ff4141;
+    --high-background: #ff414129;
 }
 
 @font-face {
@@ -82,7 +85,7 @@ header {
     align-items: center;
     justify-content: flex-start;
     font-size: 2rem;
-    /* overflow: hidden; */
+    overflow: hidden;
     white-space: nowrap;
 }
 
@@ -94,6 +97,45 @@ header {
 .project-tasks {
     position: sticky;
     top: 17rem;
+}
+
+.project-tasks-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--gap);
+    align-items: flex-start;
+}
+
+.new-project {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: var(--border-radius);
+    padding: 0.5rem 1rem 0.5rem 1rem !important;
+    overflow: auto;
+}
+
+.new-project:hover {
+    transform: none;
+    /* background-color: #00000026; */
+    border: var(--border);
+    /* box-shadow: 5px 10px 10px #00000063; */
+}
+
+.project-delete {
+    transition: ease-in-out 0.3s;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    width: 2rem;
+    height: 2rem;
+}
+
+.project-delete:hover {
+    /* border: 1px solid white; */
+    background: white;
+    color: black;
 }
 
 #home-tasks,
@@ -152,13 +194,16 @@ header {
 li > button,
 #body-content-container > button,
 #submit-button,
-#cancel-button {
+#cancel-button,
+.new-project,
+.project-delete {
     color: var(--font-color);
     transition: ease-in-out 0.3s;
     font-size: 1.5rem;
     font-family: 'Secondary-font';
     padding: 0;
     background: none;
+    box-sizing: border-box;
 }
 
 .menu-selected {
@@ -210,7 +255,7 @@ li > button:hover {
 }
 
 .body-title {
-    font-size: 3rem;
+    font-size: 4rem;
     border-bottom: var(--border);
     border-right: var(--border);
     padding: 1rem;
@@ -430,20 +475,29 @@ li > button:hover {
 
 .task-priority-high {
     color: var(--high-priority);
-    border: 1px solid   var(--high-priority);
+    border: 1px solid var(--high-priority);
 }
 
 /* task container (priority)*/
 .task-container-low-priority {
+    /* border: 1px solid var(--low-priority); */
+    border: 1px solid var(--low-background);
     border-left: 3px solid var(--low-priority);
+    /* background-color: var(--low-background); */
 }
 
 .task-container-mid-priority {
+    /* border: 1px solid var(--mid-priority); */
+    border: 1px solid var(--mid-background);
     border-left: 3px solid var(--mid-priority);
+    /* background-color: var(--mid-background); */
 }
 
 .task-container-high-priority {
+    /* border: 1px solid var(--high-priority); */
+    border: 1px solid var(--high-background);
     border-left: 3px solid var(--high-priority);
+    /* background-color: var(--high-background); */
 }
 
 .task-container:hover {
