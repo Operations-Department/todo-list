@@ -117,6 +117,8 @@ sideBarMenuItems.projectTasks.addEventListener('click', (event) => {
 
     if (event.target.classList.contains('add-questline')) {
 
+        event.stopPropagation();
+
         //to only add one project at a time
         sideBarMenuItems.addQuestlineTab.disabled = true;
 
@@ -194,16 +196,33 @@ function renderProjectsList(projects) {
     
         projectsList.appendChild(newProject);
         newProject.appendChild(deleteProjectButton);
-        projectsList.appendChild(sideBarMenuItems.addQuestlineTab);
     });
+
+    projectsList.appendChild(sideBarMenuItems.addQuestlineTab);
 }
 
-function deleteProject() {
+function deleteProject(event) {
+    const projectTasksList = document.querySelector('.project-tasks-list');
+    const projectToDelete = event.target.closest('.new-project');
+    //title + 'x' for delete button, update later -- if replaced by icon
+    const projectToDeleteText = projectToDelete.textContent; 
+    // const projectID = projectToDelete.dataset.projectId;
 
-}
-
-sideBarMenuItems.projectTasks.addEventListener('click', (event) => {
-    if (event.target.classList.contains('project-delete')) {
-        console.log('delete that');
+    for (let i = 0; i < projects.length; i++) {
+        //need 'x' - dom element.textContent contains letter x for delete button
+        if (`${projects[i]}x` == projectToDeleteText) {
+            projects.splice(i, 1);
+            break;
+        }
     }
-})
+    projectTasksList.removeChild(projectToDelete);
+    localStorageObject.saveProjectsToLocalStorage(projects);
+}
+
+//delete project on double click
+sideBarMenuItems.projectTasks.addEventListener('dblclick', (event) => {
+    if (event.target.classList.contains('project-delete')) {
+        event.stopPropagation();
+        deleteProject(event);
+    }
+}); 
