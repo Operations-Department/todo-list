@@ -112,7 +112,7 @@ export const formActionsObject = {
         taskDescription.textContent = `${task.description}`;
 
         if (taskDescription.textContent == '') {
-            taskDescription.textContent = '(empty)';
+            taskDescription.textContent = '(no description)';
         }
 
         //taskElementRight - due date, priority, delete button
@@ -127,9 +127,10 @@ export const formActionsObject = {
         let day = date.getDate();
         let year = date.getFullYear();
 
-        //re-format the date to mm-dd-yyyy
+        //re-format the date to mm-dd--yyyy
         let formattedDate = `${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}-${year}`;
 
+        if (formattedDate == 'NaN-NaN-NaN') formattedDate = '(no due date)';
         taskDueDate.textContent = `${formattedDate}`;
 
         const taskPriority = document.createElement('button');

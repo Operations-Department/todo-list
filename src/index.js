@@ -176,6 +176,8 @@ sideBarMenuItems.projectTasks.addEventListener('click', (event) => {
         formActionsObject.renderTasks(projectTasks, bodyContentContainer);
 
         bodyContentContainer.appendChild(addTaskButton);
+
+        return projectTasks;
     }
 });
 
