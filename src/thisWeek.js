@@ -22,11 +22,17 @@ export const weeksQuestObject = {
 
         //get variables to display in header
         let startOfWeekDay = startOfWeek.getDate();
+        let startOfWeekMonth = new Date(startOfWeek).toLocaleString('en-US', { month: 'short' });
+
         let endOfWeekDay = endOfWeek.getDate();
-        let thisMonth = new Date().toLocaleString('en-US', { month: 'short' });
+        let endOfWeekMonth = new Date(endOfWeek).toLocaleString('en-US', { month: 'short' });
 
         //update page title
-        titleElement.textContent = `Week's Quests: ${thisMonth} ${startOfWeekDay} - ${endOfWeekDay}`;
+        if (startOfWeekMonth !== endOfWeekMonth) {
+            titleElement.textContent = `Week's Quests: ${startOfWeekMonth} ${startOfWeekDay} - ${endOfWeekMonth} ${endOfWeekDay}`;
+        } else {
+            titleElement.textContent = `Week's Quests: ${startOfWeekMonth} ${startOfWeekDay} - ${endOfWeekDay}`;
+        }
 
         //filter weeks's tasks
         let weeksTasks = tasks.filter(task => {
@@ -51,7 +57,7 @@ export const weeksQuestObject = {
     getWeekRange() {
         const currentDate = new Date();
         const currentDay = currentDate.getDay(); //0 (sun) to 6 (sat)
-    
+        
         //calculate the difference between the current day and the start of the week (sun)
         const startOfWeekDiff = currentDay === 0 ? 0 : currentDay;
     

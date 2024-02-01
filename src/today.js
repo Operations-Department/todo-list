@@ -16,8 +16,13 @@ export const daysQuestObject = {
         //append tools to page
         bodyContentContainer.appendChild(titleElement);
 
+        let currentDate = new Date();
+        let todaysDate = currentDate.getDate();
+        let thisMonth = new Date().toLocaleString('en-US', { month: 'short' });
+        let thisYear = currentDate.getFullYear();
+
         //update page title
-        titleElement.textContent = `Day's Quests`;
+        titleElement.textContent = `Day's Quests:  ${todaysDate} ${thisMonth} ${thisYear}`;
         
         //get today's date
         const today = daysQuestObject.getTodayDate();

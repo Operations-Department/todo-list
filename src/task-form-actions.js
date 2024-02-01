@@ -8,7 +8,10 @@ export const formActionsObject = {
     
     attachSubmitListener(submitButton, cancelButton, formContainer, addTaskButton) {
 
-        submitButton.addEventListener('click', function(event) {
+        const bodyContentContainer = document.getElementById('body-content-container');
+        const title = document.querySelector('.body-title');
+
+        submitButton.addEventListener('click', (event) => {
             event.preventDefault();
 
             const titleInput = document.getElementById('title').value.trim();
@@ -18,21 +21,39 @@ export const formActionsObject = {
                 return;
             }
 
-            // console.log(localStorage.getItem('tasks'));
-            // bug in here???
             formActionsObject.addTask();
-            // console.log(localStorage.getItem('tasks'));
-
             const tasks = getTasks();
-            formActionsObject.updateTaskList(tasks);
             addTaskButton.disabled = false;
             formActionsObject.removeForm(formContainer);
 
-            //auto sort into list after creation
-            const sortedTasks = sortTasksByDate([...tasks]);
-            formActionsObject.updateTaskList(sortedTasks);
+
+
+
+
+
+            if (title.textContent !== 'All Quests') {
+                let projectTasks = tasks.filter(task => task.projectName === title);
+                formActionsObject.renderTasks(projectTasks, bodyContentContainer);
+                const sortedTasks = sortTasksByDate([...projectTasks]);
+                formActionsObject.updateTaskList(sortedTasks);
+                bodyContentContainer.appendChild(addTaskButton);
+                
+            } else {
+                // formActionsObject.updateTaskList(tasks);
+
+                //auto sort into list after creation
+                const sortedTasks = sortTasksByDate([...tasks]);
+                formActionsObject.updateTaskList(sortedTasks);
+            }
         });
     },
+
+
+
+
+
+
+
 
     attachCancelListener(submitButton, cancelButton, formContainer, addTaskButton) {
 
@@ -46,7 +67,9 @@ export const formActionsObject = {
 
         const bodyContentContainer = document.getElementById('body-content-container');
         const addTaskButton = document.getElementById('add-task-button');
-        
+
+        const title = document.querySelector('.body-title').textContent;
+
         //prevent duplicate tasks
         bodyContentContainer.innerHTML = '';
 
@@ -161,9 +184,9 @@ export const formActionsObject = {
         const description = document.getElementById('description').value;
         const dueDate = document.getElementById('date').value;
         const priority = document.getElementById('priority-selection').value;
-
+        const projectName = document.querySelector('.body-title').textContent;
         
-        const newTask = createTask(title, description, dueDate, priority);
+        const newTask = createTask(title, description, dueDate, priority, projectName);
     
         localStorageObject.saveTasksToLocalStorage(tasks);
 

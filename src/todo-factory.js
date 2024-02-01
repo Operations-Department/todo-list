@@ -14,7 +14,7 @@ export const projectCounterObject = {
 }
 
 //creates task objects
-export function createTask(title, description, dueDate, priority) {
+export function createTask(title, description, dueDate, priority, projectName) {
     const task = {
         title: title,
         description: description,
@@ -22,7 +22,7 @@ export function createTask(title, description, dueDate, priority) {
         priority: priority,
         status: 'incomplete',
         taskID: taskCounterObject.taskCounter,
-        projectName: '',
+        projectName: projectName,
     };
 
     taskCounterObject.taskCounter++;

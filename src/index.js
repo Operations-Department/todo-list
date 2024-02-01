@@ -167,9 +167,15 @@ sideBarMenuItems.projectTasks.addEventListener('click', (event) => {
 
         //append tools to page
         bodyContentContainer.appendChild(titleElement);
-        bodyContentContainer.appendChild(addTaskButton);
 
         titleElement.textContent = `${projectTitle}`;
+
+        //filter tasks array by project name
+        let projectTasks = tasks.filter(task => task.projectName === projectTitle);
+
+        formActionsObject.renderTasks(projectTasks, bodyContentContainer);
+
+        bodyContentContainer.appendChild(addTaskButton);
     }
 });
 
