@@ -119,7 +119,18 @@ export const formActionsObject = {
         const taskDueDate = document.createElement('p');
         taskDueDate.classList.add('task-due-date');
         if (task.dueDate == '') task.dueDate = '(no due date)';
-        taskDueDate.textContent = `${task.dueDate}`;
+
+        let date = task.dueDate; 
+        date = new Date(date);
+
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        let year = date.getFullYear();
+
+        //re-format the date to mm-dd-yyyy
+        let formattedDate = `${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}-${year}`;
+
+        taskDueDate.textContent = `${formattedDate}`;
 
         const taskPriority = document.createElement('button');
         taskPriority.classList.add('task-priority');
