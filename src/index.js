@@ -149,6 +149,8 @@ sideBarMenuItems.projectTasks.addEventListener('dblclick', (event) => {
     event.stopPropagation();
     if (event.target.classList.contains('project-delete')) {
         deleteProject(event);
+        //iterate the tasks array
+            //remove all tasks with matching project title
     }
 }); 
 

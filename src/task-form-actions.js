@@ -7,10 +7,7 @@ import { sortTasksByDate } from ".";
 export const formActionsObject = {
     
     attachSubmitListener(submitButton, cancelButton, formContainer, addTaskButton) {
-
-        const bodyContentContainer = document.getElementById('body-content-container');
-        const title = document.querySelector('.body-title');
-
+        
         submitButton.addEventListener('click', (event) => {
             event.preventDefault();
 
@@ -21,30 +18,23 @@ export const formActionsObject = {
                 return;
             }
 
+            //prepared for any tasks added to a project page
+            const title = document.querySelector('.body-title').textContent.trim();
+            const projectsList = document.querySelectorAll('.new-project');
+            const foundNode = Array.from(projectsList).find(element => (element.textContent.trim() === title));
+
+            //add task to array, update display and save
             formActionsObject.addTask();
             const tasks = getTasks();
             addTaskButton.disabled = false;
             formActionsObject.removeForm(formContainer);
 
+            //auto sort into list after creation
+            const sortedTasks = sortTasksByDate([...tasks]);
+            formActionsObject.updateTaskList(sortedTasks);
 
-
-
-
-
-            if (title.textContent !== 'All Quests') {
-                let projectTasks = tasks.filter(task => task.projectName === title);
-                formActionsObject.renderTasks(projectTasks, bodyContentContainer);
-                const sortedTasks = sortTasksByDate([...projectTasks]);
-                formActionsObject.updateTaskList(sortedTasks);
-                bodyContentContainer.appendChild(addTaskButton);
-                
-            } else {
-                // formActionsObject.updateTaskList(tasks);
-
-                //auto sort into list after creation
-                const sortedTasks = sortTasksByDate([...tasks]);
-                formActionsObject.updateTaskList(sortedTasks);
-            }
+            //stay on project page when task added - avoid auto jumping to allTasks page
+            if (foundNode) foundNode.click();      
         });
     },
 
