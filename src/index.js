@@ -5,6 +5,7 @@ import { localStorageObject } from './local-storage.js';
 import { formActionsObject } from './task-form-actions.js';
 import { weeksQuestObject } from './thisWeek.js';
 import { daysQuestObject } from './today.js';
+import { format } from 'date-fns';
 
 const sideBarMenuItems = {
     sideBarMenu: document.getElementById('home-tasks'),
@@ -25,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     allQuestsPage();
 
     //show selected menu tab
-    sideBarMenuItems.allQuestsTab.classList.add('menu-selected');
+    // sideBarMenuItems.allQuestsTab.classList.add('menu-selected');
     
     //initialize the event listeners
     createAllQuestsPage.init();
@@ -33,35 +34,37 @@ document.addEventListener('DOMContentLoaded', function() {
 
 sideBarMenuItems.sideBarMenu.addEventListener('click', (event) => {
     event.stopPropagation();
-    if (event.target.classList.contains('all-quests')) {
+    const addTaskButton = document.getElementById('add-task-button');
+
+    if (event.target.classList.contains('all-quests')) {        
         allQuestsPage();
 
         //show selected menu tab
-        sideBarMenuItems.addClass(event);
+        // sideBarMenuItems.addClass(event);
 
         //remove selected menu tab
-        sideBarMenuItems.daysQuestTab.classList.remove('menu-selected');
-        sideBarMenuItems.weeksQuestTab.classList.remove('menu-selected');
+        // sideBarMenuItems.daysQuestTab.classList.remove('menu-selected');
+        // sideBarMenuItems.weeksQuestTab.classList.remove('menu-selected');
     }
     if (event.target.classList.contains('days-quests')) {
         daysQuestObject.daysQuestPage();
 
         //show selected menu tab
-        sideBarMenuItems.addClass(event);
+        // sideBarMenuItems.addClass(event);
 
         //remove selected menu tab
-        sideBarMenuItems.allQuestsTab.classList.remove('menu-selected');
-        sideBarMenuItems.weeksQuestTab.classList.remove('menu-selected');
+        // sideBarMenuItems.allQuestsTab.classList.remove('menu-selected');
+        // sideBarMenuItems.weeksQuestTab.classList.remove('menu-selected');
     }
     if (event.target.classList.contains('weeks-quests')) {
         weeksQuestObject.weeksQuestPage();
 
         //show selected menu tab
-        sideBarMenuItems.addClass(event);
+        // sideBarMenuItems.addClass(event);
 
-        //remove selected menu tab
-        sideBarMenuItems.allQuestsTab.classList.remove('menu-selected');
-        sideBarMenuItems.daysQuestTab.classList.remove('menu-selected');
+        // remove selected menu tab
+        // sideBarMenuItems.allQuestsTab.classList.remove('menu-selected');
+        // sideBarMenuItems.daysQuestTab.classList.remove('menu-selected');
     }
 });
 
@@ -149,8 +152,7 @@ sideBarMenuItems.projectTasks.addEventListener('dblclick', (event) => {
     event.stopPropagation();
     if (event.target.classList.contains('project-delete')) {
         deleteProject(event);
-        //iterate the tasks array
-            //remove all tasks with matching project title
+        deleteProjectSubTasks(event);
     }
 }); 
 
@@ -244,6 +246,7 @@ function deleteProject(event) {
     const projectToDeleteText = projectToDelete.textContent; 
     // const projectID = projectToDelete.dataset.projectId;
 
+    //delete project from projects array
     for (let i = 0; i < projects.length; i++) {
         if (projects[i] == projectToDeleteText) {
             projects.splice(i, 1);
@@ -252,4 +255,20 @@ function deleteProject(event) {
     }
     projectTasksList.removeChild(projectToDelete);
     localStorageObject.saveProjectsToLocalStorage(projects);
+}
+
+//remove any tasks from tasks array from the deleted project
+function deleteProjectSubTasks(event) {
+    const tasksToDelete = event.target.closest('.new-project').textContent;
+
+    for (let i = 0; i < tasks.length; i++) {
+        if (tasks[i].projectName === tasksToDelete) {
+            tasks.splice(i, 1);
+            i -= 1;
+        }
+        console.log(tasks);
+    }
+
+    formActionsObject.updateTaskList(tasks);
+    localStorageObject.saveTasksToLocalStorage(tasks);
 }

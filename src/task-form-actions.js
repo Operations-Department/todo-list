@@ -38,13 +38,6 @@ export const formActionsObject = {
         });
     },
 
-
-
-
-
-
-
-
     attachCancelListener(submitButton, cancelButton, formContainer, addTaskButton) {
 
         cancelButton.addEventListener('click', function() {
@@ -108,7 +101,6 @@ export const formActionsObject = {
         //taskElementRight - due date, priority, delete button
         const taskDueDate = document.createElement('p');
         taskDueDate.classList.add('task-due-date');
-        if (task.dueDate == '') task.dueDate = '(no due date)';
 
         let date = task.dueDate; 
         date = new Date(date);
