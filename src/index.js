@@ -6,6 +6,10 @@ import { formActionsObject } from './task-form-actions.js';
 import { weeksQuestObject } from './thisWeek.js';
 import { daysQuestObject } from './today.js';
 
+export function sortTasksByDate(tasks) {
+    return  tasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+}
+
 const sideBarMenuItems = {
     sideBarMenu: document.getElementById('home-tasks'),
     allQuestsTab: document.querySelector('.all-quests'),
@@ -22,7 +26,7 @@ const sideBarMenuItems = {
 
 document.addEventListener('DOMContentLoaded', function() {
     //load all tasks page first
-    allQuestsPage();
+    allQuestPageObject.allQuestsPage();
 
     //show selected menu tab
     // sideBarMenuItems.allQuestsTab.classList.add('menu-selected');
@@ -36,7 +40,7 @@ sideBarMenuItems.sideBarMenu.addEventListener('click', (event) => {
     const addTaskButton = document.getElementById('add-task-button');
 
     if (event.target.classList.contains('all-quests')) {        
-        allQuestsPage();
+        allQuestPageObject.allQuestsPage();
 
         //show selected menu tab
         // sideBarMenuItems.addClass(event);
@@ -67,54 +71,48 @@ sideBarMenuItems.sideBarMenu.addEventListener('click', (event) => {
     }
 });
 
-function allQuestsPage() {
-    //clear the page
-    bodyContentContainer.innerHTML = '';
+//load and populate all quests page
+const allQuestPageObject = {
+    allQuestsPage() {
+        //clear the page
+        bodyContentContainer.innerHTML = '';
 
-    //import task page elements
-    const { titleElement, addTaskButton } = createAllQuestsPage.elements;
+        //import task page elements
+        const { titleElement, addTaskButton } = createAllQuestsPage.elements;
 
-    //append tools to page
-    bodyContentContainer.appendChild(titleElement);
-    bodyContentContainer.appendChild(addTaskButton);
+        //append tools to page
+        bodyContentContainer.appendChild(titleElement);
+        bodyContentContainer.appendChild(addTaskButton);
 
-    const retrievedTasks = localStorageObject.getTasksFromLocalStorage();
+        const retrievedTasks = localStorageObject.getTasksFromLocalStorage();
 
-    tasks.length = 0;
-    tasks.push(...retrievedTasks);
+        tasks.length = 0;
+        tasks.push(...retrievedTasks);
 
-    const retrievedProjects = localStorageObject.getProjectsFromLocalStorage();
+        const retrievedProjects = localStorageObject.getProjectsFromLocalStorage();
 
-    projects.length = 0;
-    projects.push(...retrievedProjects);
+        projects.length = 0;
+        projects.push(...retrievedProjects);
 
-    //prevent task counter from starting with wrong id number on page reload
-    if (tasks.length !== 0) {
-        let previousTaskId = tasks[tasks.length - 1].taskID;
-        taskCounterObject.taskCounter = previousTaskId + 1;
+        //prevent task counter from starting with wrong id number on page reload
+        if (tasks.length !== 0) {
+            let previousTaskId = tasks[tasks.length - 1].taskID;
+            taskCounterObject.taskCounter = previousTaskId + 1;
+        }
+
+        //sort tasks in order on page load
+        sortTasksByDate(tasks);
+
+        //render saved projects on page load
+        projectCreationObject.renderProjectsList(projects);
+
+        formActionsObject.updateTaskList(tasks);
+
+        return tasks;
     }
-
-    //sort tasks in order on page load
-    sortTasksByDate(tasks);
-
-    //render saved projects on page load
-    renderProjectsList(projects);
-
-    formActionsObject.updateTaskList(tasks);
-
-    return tasks;
 }
 
-export function sortTasksByDate(tasks) {
-    return  tasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
-}
-
-
-
-
-
-
-
+//create project - add to dom
 sideBarMenuItems.projectTasks.addEventListener('click', (event) => {
     event.stopPropagation();
     if (event.target.classList.contains('add-questline')) {
@@ -143,7 +141,7 @@ sideBarMenuItems.projectTasks.addEventListener('click', (event) => {
                 projects.push(projectTitle);
 
                 //creates project dom element
-                createNewProject(editInputBox, projectTitle);
+                projectCreationObject.createNewProject(editInputBox, projectTitle);
 
                 //re-establish add button
                 sideBarMenuItems.addQuestlineTab.disabled = false;
@@ -158,8 +156,8 @@ sideBarMenuItems.projectTasks.addEventListener('click', (event) => {
 sideBarMenuItems.projectTasks.addEventListener('dblclick', (event) => {
     event.stopPropagation();
     if (event.target.classList.contains('project-delete')) {
-        deleteProject(event);
-        deleteProjectSubTasks(event);
+        projectDeletionObject.deleteProject(event);
+        projectDeletionObject.deleteProjectSubTasks(event);
     }
 }); 
 
@@ -192,89 +190,98 @@ sideBarMenuItems.projectTasks.addEventListener('click', (event) => {
     }
 });
 
-//new project creation to dom
-function createNewProject(editInputBox, projectTitle) {
-
-    const newProject = document.createElement('button');
-
-    newProject.textContent = projectTitle;
-    sideBarMenuItems.projectsTasksList.replaceChild(newProject, editInputBox);
-
-    newProject.classList.add('new-project');
-    newProject.setAttribute('data-project-id', projectCounterObject.projectID);
-
-    projectCounterObject.projectID++;
-
-    const deleteProjectButton = document.createElement('button');
-    deleteProjectButton.classList.add('project-delete');
-
-    newProject.appendChild(deleteProjectButton);
+//create project object
+const projectCreationObject = {
     
-    sideBarMenuItems.projectsTasksList.appendChild(sideBarMenuItems.addQuestlineTab);
-
-    return { newProject, deleteProjectButton };
-}
-
-//render saved projects on page load
-function renderProjectsList(projects) {
-
-    const projectsList = document.querySelector('.project-tasks-list');
-
-    //clear to prevent stacking
-    projectsList.innerHTML = '';
-    
-    projects.forEach(project => {
-
-        const projectTitle = project;
+    //new project creation to dom
+    createNewProject(editInputBox, projectTitle) {
 
         const newProject = document.createElement('button');
 
         newProject.textContent = projectTitle;
+        sideBarMenuItems.projectsTasksList.replaceChild(newProject, editInputBox);
 
         newProject.classList.add('new-project');
         newProject.setAttribute('data-project-id', projectCounterObject.projectID);
-    
+
         projectCounterObject.projectID++;
-    
+
         const deleteProjectButton = document.createElement('button');
         deleteProjectButton.classList.add('project-delete');
-    
-        projectsList.appendChild(newProject);
+
         newProject.appendChild(deleteProjectButton);
-    });
+        
+        sideBarMenuItems.projectsTasksList.appendChild(sideBarMenuItems.addQuestlineTab);
 
-    projectsList.appendChild(sideBarMenuItems.addQuestlineTab);
+        return { newProject, deleteProjectButton };
+    },
+
+    //render saved projects on page load
+    renderProjectsList(projects) {
+
+        const projectsList = document.querySelector('.project-tasks-list');
+
+        //clear to prevent stacking
+        projectsList.innerHTML = '';
+        
+        projects.forEach(project => {
+
+            const projectTitle = project;
+
+            const newProject = document.createElement('button');
+
+            newProject.textContent = projectTitle;
+
+            newProject.classList.add('new-project');
+            newProject.setAttribute('data-project-id', projectCounterObject.projectID);
+        
+            projectCounterObject.projectID++;
+        
+            const deleteProjectButton = document.createElement('button');
+            deleteProjectButton.classList.add('project-delete');
+        
+            projectsList.appendChild(newProject);
+            newProject.appendChild(deleteProjectButton);
+        });
+
+        projectsList.appendChild(sideBarMenuItems.addQuestlineTab);
+    }
 }
 
-//removes project from object and dom element
-function deleteProject(event) {
-    const projectTasksList = document.querySelector('.project-tasks-list');
-    const projectToDelete = event.target.closest('.new-project');
-    const projectToDeleteText = projectToDelete.textContent; 
-    // const projectID = projectToDelete.dataset.projectId;
+//delete project object
+const projectDeletionObject = {
 
-    //delete project from projects array
-    for (let i = 0; i < projects.length; i++) {
-        if (projects[i] == projectToDeleteText) {
-            projects.splice(i, 1);
-            break;
+    //removes project from object and dom element
+    deleteProject(event) {
+        const projectTasksList = document.querySelector('.project-tasks-list');
+        const projectToDelete = event.target.closest('.new-project');
+        const projectToDeleteText = projectToDelete.textContent; 
+        // const projectID = projectToDelete.dataset.projectId;
+
+        //delete project from projects array
+        for (let i = 0; i < projects.length; i++) {
+            if (projects[i] == projectToDeleteText) {
+                projects.splice(i, 1);
+                break;
+            }
         }
-    }
-    projectTasksList.removeChild(projectToDelete);
-    localStorageObject.saveProjectsToLocalStorage(projects);
-}
 
-//remove any tasks from tasks array from the deleted project
-function deleteProjectSubTasks(event) {
-    const tasksToDelete = event.target.closest('.new-project').textContent;
+        projectTasksList.removeChild(projectToDelete);
+        localStorageObject.saveProjectsToLocalStorage(projects);
+    },
 
-    for (let i = 0; i < tasks.length; i++) {
-        if (tasks[i].projectName === tasksToDelete) {
-            tasks.splice(i, 1);
-            i -= 1;
+    //remove any tasks from tasks array from the deleted project
+    deleteProjectSubTasks(event) {
+        const tasksToDelete = event.target.closest('.new-project').textContent;
+
+        for (let i = 0; i < tasks.length; i++) {
+            if (tasks[i].projectName === tasksToDelete) {
+                tasks.splice(i, 1);
+                i -= 1;
+            }
         }
-    }
 
-    formActionsObject.updateTaskList(tasks);
-    localStorageObject.saveTasksToLocalStorage(tasks);
+        formActionsObject.updateTaskList(tasks);
+        localStorageObject.saveTasksToLocalStorage(tasks);
+    }
 }
