@@ -5,7 +5,6 @@ import { localStorageObject } from './local-storage.js';
 import { formActionsObject } from './task-form-actions.js';
 import { weeksQuestObject } from './thisWeek.js';
 import { daysQuestObject } from './today.js';
-import { format } from 'date-fns';
 
 const sideBarMenuItems = {
     sideBarMenu: document.getElementById('home-tasks'),
@@ -131,6 +130,14 @@ sideBarMenuItems.projectTasks.addEventListener('click', (event) => {
             if (event.key === 'Enter' && editInputBox.value.trim() !== '') {
 
                 const projectTitle = editInputBox.value;
+
+                //prevent multiple projects with same name
+                for (let i = 0; i < projects.length; i++) {
+                    if (projectTitle.trim() === projects[i]) {
+                        alert('That project already exists');
+                        return;
+                    }
+                }
 
                 //push to projects array
                 projects.push(projectTitle);
