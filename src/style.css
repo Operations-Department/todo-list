@@ -108,10 +108,11 @@ header {
 }
 
 .new-project {
-    display: flex;
     width: 100%;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
     align-items: center;
-    justify-content: space-between;
+    justify-items: start;
     border-radius: var(--border-radius);
     padding: 0.5rem 1rem 0.5rem 1rem !important;
     overflow: auto;
@@ -134,7 +135,8 @@ header {
     border-radius: var(--border-radius);
     width: 30px;
     height: 30px;
-    margin-left: 25px;
+    justify-self: end;
+    margin-left: 1.5rem;
     box-sizing: border-box;
     padding: 0;
     filter: invert(1);

@@ -266,7 +266,6 @@ function deleteProjectSubTasks(event) {
             tasks.splice(i, 1);
             i -= 1;
         }
-        console.log(tasks);
     }
 
     formActionsObject.updateTaskList(tasks);
