@@ -51,6 +51,9 @@ function handleAddTask(addTaskButton, formContainer) {
 
     const { form, formLeft, formRight, formBottom } = taskFormObject.createFormLayout(formContainer);
     bodyContentContainer.appendChild(formContainer);
+    
+    //prevent multiple forms when button clicked
+    formContainer.innerHTML = '';
     formContainer.appendChild(form);
 
     //call form functions to fill in the form...

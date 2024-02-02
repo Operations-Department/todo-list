@@ -267,7 +267,7 @@ li > button:hover {
 .form-container{
     height: 12rem;
     width: 90%;
-    background-image: url(./imgs/backdrop-2.jpg);
+    background-image: var(--background-image);
     background-size: 100% 100%;
     background-attachment: fixed;
     box-sizing: border-box;

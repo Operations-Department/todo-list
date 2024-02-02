@@ -37,10 +37,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 sideBarMenuItems.sideBarMenu.addEventListener('click', (event) => {
     event.stopPropagation();
-    const addTaskButton = document.getElementById('add-task-button');
 
-    if (event.target.classList.contains('all-quests')) {        
+    if (event.target.classList.contains('all-quests')) {     
+
         allQuestPageObject.allQuestsPage();
+        
+        const addTaskButton = document.getElementById('add-task-button');
+
+        //prevent user from accidentally and permanently disabling button
+        sideBarMenuItems.addQuestlineTab.disabled = false;
+        addTaskButton.disabled = false;
 
         //show selected menu tab
         // sideBarMenuItems.addClass(event);
@@ -173,6 +179,9 @@ sideBarMenuItems.projectTasks.addEventListener('click', (event) => {
 
         //import task page elements
         const { titleElement, addTaskButton } = createAllQuestsPage.elements;
+
+        //ensure not accidentally disabled 
+        addTaskButton.disabled = false;
 
         //append tools to page
         bodyContentContainer.appendChild(titleElement);
