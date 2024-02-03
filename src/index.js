@@ -143,6 +143,11 @@ sideBarMenuItems.projectTasks.addEventListener('click', (event) => {
                     }
                 }
 
+                if (projectTitle.length >= 35) {
+                    alert(`Character limit exceeded, titles are supposed to be short and concise`);
+                    return;
+                }
+
                 //push to projects array
                 projects.push(projectTitle);
 
