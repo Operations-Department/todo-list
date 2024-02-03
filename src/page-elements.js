@@ -9,9 +9,10 @@ export const pageElementsObject = {
     },
 
     createAddTaskButton() {
+        //appending icon doesn't work here
         const addTaskButton = document.createElement('button');
         addTaskButton.setAttribute('id', 'add-task-button');
-        addTaskButton.textContent = '|+| Add Quest';
+        addTaskButton.textContent = 'Add Quest';
         return addTaskButton;
     },
 

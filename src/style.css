@@ -7,7 +7,6 @@ html {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
-    /* box-sizing: border-box; */
 }
 
 :root {
@@ -17,7 +16,7 @@ html {
     --border-color: red;
     --border: 1px solid var(--border-color);
     --font-color: white;
-    --gap: 1rem;
+    --gap: 1.5rem;
     --cancel-color: #a52f2f;
     --submit-color: #026e02cf;
     --background-image: url(./imgs/backdrop-2.jpg);
@@ -43,7 +42,7 @@ html {
     font-style: normal;
 }
 
-/* scroll bar editting */
+/* scroll bar editing */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -117,6 +116,46 @@ header {
     top: 0rem;
 }
 
+button.all-quests,
+button.days-quests,
+button.weeks-quests {
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+}
+
+.all-quests-icon,
+.days-quests-icon,
+.weeks-quests-icon {
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.all-quests-icon {
+    background: url(./imgs/task.png);
+    background-size: cover;
+    background-color: transparent;
+    filter: invert(1);
+}
+
+.days-quests-icon {
+    background: url(./imgs/24-hours.png);
+    background-size: cover;
+    background-color: transparent;
+    filter: invert(1);
+}
+
+.weeks-quests-icon {
+    background: url(./imgs/calendar.png);
+    background-size: cover;
+    background-color: transparent;
+    filter: invert(1);
+}
+
 .project-tasks {
     overflow: auto;
 }
@@ -136,12 +175,44 @@ header {
     align-items: center;
     justify-items: start;
     border-radius: var(--border-radius);
+    border: 1px solid transparent;
     padding: 0.5rem 1rem 0.5rem 1rem !important;
     overflow: auto;
 }
 
 .new-project:hover {
+    cursor: pointer;
     transform: none;
+    border: var(--border);
+}
+
+.add-icon {
+    background: url(./imgs/plus.png);
+    filter: invert(1);
+    background-size: cover;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    width: 25px;
+    height: 25px;
+    box-sizing: border-box;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.add-questline {
+    display: flex;
+    align-self: center;
+    padding: 0.7rem;
+    gap: 8px;
+    border: 1px solid transparent;
+}
+
+.add-questline:hover {
+    cursor: pointer;
+    border-radius: var(--border-radius);
     border: var(--border);
 }
 
@@ -155,11 +226,16 @@ header {
     border-radius: var(--border-radius);
     width: 30px;
     height: 30px;
-    justify-self: end;
-    margin-left: 1.5rem;
     box-sizing: border-box;
     padding: 0;
     filter: invert(1);
+    justify-self: end;
+    margin-left: 1.5rem;
+}
+
+.project-delete:hover {
+    /* turns red due to the filter: invert(1);^ */
+    background-color: #00ffe9;
 }
 
 #home-tasks,
@@ -216,7 +292,7 @@ header {
 }
 
 li > button,
-#body-content-container > button,
+#add-task-button,
 #submit-button,
 #cancel-button,
 .new-project {
@@ -233,21 +309,26 @@ li > button,
     border-bottom: 1px solid white;
 }
 
-#body-content-container > button {
+#add-task-button {
     animation: bounce 8s infinite;
     align-self: center;
     box-sizing: border-box;
     padding: 0.7rem;
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 0.5rem;
+    border: 1px solid transparent;
 }
 
-#body-content-container > button:hover {
+#add-task-button:hover {
     cursor: pointer;
     border-radius: var(--border-radius);
-    background: white;
-    color: black;
+    border: var(--border);
 }
 
-li > button:hover {
+.all-quests:hover,
+.days-quests:hover,
+.weeks-quests:hover {
     cursor: pointer;
     transform: translateX(1rem);
 }

@@ -90,6 +90,14 @@ const allQuestPageObject = {
         bodyContentContainer.appendChild(titleElement);
         bodyContentContainer.appendChild(addTaskButton);
 
+        //create and add icon (doesn't work in page elements file)
+        const iconDiv = document.createElement('div');
+        iconDiv.classList.add('add-icon');
+
+        addTaskButton.innerHTML = '';
+        addTaskButton.textContent = 'Add Task';
+        addTaskButton.appendChild(iconDiv);
+
         const retrievedTasks = localStorageObject.getTasksFromLocalStorage();
 
         tasks.length = 0;
