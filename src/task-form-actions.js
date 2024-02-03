@@ -94,7 +94,7 @@ export const formActionsObject = {
         taskDescription.setAttribute('id', 'task-description');
         taskDescription.textContent = `${task.description}`;
 
-        if (taskDescription.textContent == '') {
+        if (taskDescription.textContent.trim() == '') {
             taskDescription.textContent = '(no description)';
         }
 
