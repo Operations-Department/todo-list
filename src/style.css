@@ -124,6 +124,7 @@ button.weeks-quests {
     gap: var(--gap);
 }
 
+.github-icon,
 .all-quests-icon,
 .days-quests-icon,
 .weeks-quests-icon {
@@ -648,6 +649,19 @@ footer {
     background: var(--background-image);
     background-size: 100% 100%;
     background-attachment: fixed;
+    gap: 0.5rem;
+}
+
+footer > a {
+    color: white;
+}
+
+.github-icon {
+    background: url(./imgs/github.png);
+    background-size: cover;
+    background-color: transparent;
+    filter: invert(1);
+    border-radius: 50px;
 }
 
 .content > div {
